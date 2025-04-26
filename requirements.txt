@@ -1,2 +1,4 @@
+cloudscraper==1.2.71
 ipython==9.1.0
-requests==2.32.3
+pandas==2.2.3
+# requests==2.32.3
