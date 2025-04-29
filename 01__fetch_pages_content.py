@@ -1,3 +1,4 @@
+"""01__fetch_pages_content."""
 import cloudscraper
 import pandas as pd
 import re
@@ -5,6 +6,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 
 scraper = cloudscraper.create_scraper()
+DATABASE_PATH = "artifacts/database.parquet"
+
 
 def fetch__list_pages():
     """Fetch a list of all pages."""
@@ -88,10 +91,10 @@ with ThreadPoolExecutor(max_workers=12) as executor:
 contents_df = pd.DataFrame(list_contents_df)
 
 # Merge
-pages_df = pages_df.merge(contents_df, on='pageid')
+pages_df = pages_df.merge(contents_df, on='pageid').reset_index()
 
 # Delete redirects
 pages_df = pages_df[~pages_df['content'].str.startswith("#REDIRECT")]
 
 # Export parquet
-pages_df = pages_df.to_parquet("database.parquet")
+pages_df = pages_df.to_parquet(DATABASE_PATH, index=False)
