@@ -1,10 +1,10 @@
-"""Script to fetch all pages."""
 import cloudscraper
 import pandas as pd
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 
 scraper = cloudscraper.create_scraper()
-
 
 def fetch__list_pages():
     """Fetch a list of all pages."""
@@ -18,70 +18,42 @@ def fetch__list_pages():
     }
     list__pages_df = []
     print("Listando páginas...")
-    while apcontinue is not None or len(list__pages_df) == 0:
-        # Add apcontinue if exists
-        if apcontinue is not None:
-            params['apcontinue'] = apcontinue
-        response = scraper.get(url, params=params)
-        pages_data = response.json()
-        pages_df = pd.DataFrame(pages_data['query']['allpages'])[['pageid', 'title']]
-        print(f"""
-            Lista {len(list__pages_df) + 1}.
-            Apcontinue: {apcontinue}.
-            Start: {pages_data['query']['allpages'][0]}.
-            End: {pages_data['query']['allpages'][-1]}.\n
-            """)
-        # Updated apcontinue if exists
-        if 'continue' in pages_data:
-            apcontinue = pages_data['continue']['apcontinue']
-        else:
-            apcontinue = None
-        list__pages_df.append(pages_df)
 
-    all__pages_df = pd.concat(list__pages_df)
+    with tqdm(desc="Páginas", unit=" lotes") as pbar:
+        while apcontinue is not None or len(list__pages_df) == 0:
+            if apcontinue is not None:
+                params['apcontinue'] = apcontinue
+            response = scraper.get(url, params=params)
+            pages_data = response.json()
+            pages_df = pd.DataFrame(pages_data['query']['allpages'])[['pageid', 'title']]
+            pbar.update(1)
+            if 'continue' in pages_data:
+                apcontinue = pages_data['continue']['apcontinue']
+            else:
+                apcontinue = None
+            list__pages_df.append(pages_df)
+
+    all__pages_df = pd.concat(list__pages_df, ignore_index=True)
     return all__pages_df
 
 
 def fetch__page_content(pageid: int):
-    """Fetch a page content based on page id.
-
-    Args:
-        pageid (int): page id.
-    """
+    """Fetch a page content based on page id."""
     def _wikitext_to_markdown(wikitext):
-        # 1. Remove templates like {{Infobox television}} and {{References}}
         wikitext = re.sub(r'\{\{[^{}]*\}\}', '', wikitext)
-
-        # 2. Remove <ref>...</ref> references (single-line and multi-line)
         wikitext = re.sub(r'<ref[^>]*>.*?<\/ref>', '', wikitext, flags=re.DOTALL)
-
-        # 3. Remove any remaining <ref .../> self-closing tags
         wikitext = re.sub(r'<ref[^\/>]*/>', '', wikitext)
-
-        # 4. Convert section titles (== Title == → ## Title)
-        wikitext = re.sub(
-            r'^(=+)\s*(.*?)\s*\1$', lambda m: "#" * len(m.group(1)) + " " +
-            m.group(2), wikitext, flags=re.MULTILINE)
-
-        # 5. Replace ''italic'' and '''bold'''
+        wikitext = re.sub(r'^(=+)\s*(.*?)\s*\1$', lambda m: "#" * len(m.group(1)) + " " + m.group(2), wikitext, flags=re.MULTILINE)
         wikitext = re.sub(r"'''''(.*?)'''''", r'***\1***', wikitext)
         wikitext = re.sub(r"'''(.*?)'''", r'**\1**', wikitext)
         wikitext = re.sub(r"''(.*?)''", r'*\1*', wikitext)
-
-        # 6. Convert wiki links
         wikitext = re.sub(r'\[\[([^|\]]+)\|([^\]]+)\]\]', r'\2', wikitext)
         wikitext = re.sub(r'\[\[([^\]]+)\]\]', r'\1', wikitext)
-
-        # 7. Remove external link references [https://url Title]
-        wikitext = re.sub(
-            r'\[https?:\/\/[^\s\]]+\s([^\]]+)\]', r'\1', wikitext)
-
-        # 8. Remove categories
+        wikitext = re.sub(r'\[https?:\/\/[^\s\]]+\s([^\]]+)\]', r'\1', wikitext)
         wikitext = re.sub(r'\[\[Category:[^\]]+\]\]', '', wikitext)
-
-        # 9. Clean up multiple newlines
         wikitext = re.sub(r'\n{3,}', '\n\n', wikitext)
         return wikitext.strip()
+
     url = "https://awoiaf.westeros.org/api.php"
     params = {
         "action": "query",
@@ -93,9 +65,33 @@ def fetch__page_content(pageid: int):
     }
     response = scraper.get(url, params=params)
     data = response.json()
-    content = data['query']['pages'][str(pageid)]['revisions'][0]['*']
-    content = _wikitext_to_markdown(content)
-    return content
+    try:
+        content = data['query']['pages'][str(pageid)]['revisions'][0]['*']
+    except (KeyError, IndexError):
+        return ""
+    return {'pageid': pageid, 'content': _wikitext_to_markdown(content)}
 
 
+# Main script
 pages_df = fetch__list_pages()
+page_ids = pages_df['pageid'].tolist()
+
+# Parallel fetch with progress bar
+list_contents_df = []
+with ThreadPoolExecutor(max_workers=12) as executor:
+    futures = {
+        executor.submit(fetch__page_content, pid): pid for pid in page_ids
+    }
+    for future in tqdm(as_completed(futures), total=len(futures), desc="Baixando conteúdo", unit="página"):
+        list_contents_df.append(future.result())
+
+contents_df = pd.DataFrame(list_contents_df)
+
+# Merge
+pages_df = pages_df.merge(contents_df, on='pageid')
+
+# Delete redirects
+pages_df = pages_df[~pages_df['content'].str.startswith("#REDIRECT")]
+
+# Export parquet
+pages_df = pages_df.to_parquet("database.parquet")
