@@ -32,49 +32,72 @@ def generate_answer(
     max_tokens: int) -> str:
     """Generate answer with llm and retrieved context."""
     # Formata contexto
-    prompt_with_context = f"""
-        [Instructions]
-        Based on the following context,answer the question accurately and
-        concisely. You must not create information you don't see in the
-        context, but you **must structure** your response in markdown and not
-        only pass the context as answer. Please format your answer in a way
-        that is easy to read and visually structured. You also may NOT give
-        an explanation to the answer you generated.
+    messages = [
+        {
+            "role": "system",
+            "content":
+            f"""
+            [Instructions]
+            Based on the following context,answer the question accurately and
+            concisely. You must not create information you don't see in the
+            context, but you **must structure** your response in markdown and not
+            only pass the context as answer. Please format your answer in a way
+            that is easy to read and visually structured. You also may NOT give
+            an explanation to the answer you generated. NEVER start the
+            response with 'Based on the provided context'.
 
-        Example:
-        User: Who is Jon Snow?
-        Answer: **Jon Snow** is the bastard son of Eddard Stark, Lord of
-        Winterfell. He has five half-siblings: Robb, Sansa, Arya, Bran, and
-        Rickon Stark. Unaware of the identity of his mother, Jon was raised at
-        Winterfell. At the age of fourteen, Jon joins the Night's Watch, where
-        he earns the nickname Lord Snow. Jon is one of the major POV characters
-        in *A Song of Ice and Fire*.
+            Example:
+            User: Who is Jon Snow?
+            Answer: **Jon Snow** is the bastard son of Eddard Stark, Lord of
+            Winterfell. He has five half-siblings: Robb, Sansa, Arya, Bran, and
+            Rickon Stark. Unaware of the identity of his mother, Jon was raised at
+            Winterfell. At the age of fourteen, Jon joins the Night's Watch, where
+            he earns the nickname Lord Snow. Jon is one of the major POV characters
+            in *A Song of Ice and Fire*.
 
-        ## Appearance and Character
-        Jon has the long face of the Starks [...]
+            ## Appearance and Character
+            Jon has the long face of the Starks [...]
 
-        [Question]
-        {prompt}
-
-        [Context]
-        {' '.join(retrieved_context)}
-
-        [Answer]
-    """
+            [Context]
+            {' '.join(retrieved_context)}
+            """
+        },
+        {
+            "role": "user",
+            "content": f"{prompt}\n\nContexto:\n{retrieved_context}"
+        }
+    ]
     # Gera tokens
-    # tokenizer.pad_token_id = tokenizer.unk_token_id
-    inputs = tokenizer(prompt_with_context, return_tensors="pt").to(device)
+    text = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+    model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
 
     # Gera resposta
     with torch.inference_mode():
-        outputs = model.generate(
-            inputs['input_ids'],
-            max_new_tokens=max_tokens,
+        generated_ids = model.generate(
+            **model_inputs,
+            max_new_tokens=512
         )
-
     # Decodifica a resposta gerada
-    answer = tokenizer.decode(
-        outputs[0], skip_special_tokens=True
-    )[len(prompt_with_context):]
+    generated_ids = [
+        output_ids[len(input_ids):]
+        for input_ids, output_ids in
+        zip(model_inputs.input_ids, generated_ids)
+    ]
+    response = tokenizer.batch_decode(
+        generated_ids, skip_special_tokens=True)[0]
 
-    return answer
+    # Remove introduções indesejadas da resposta
+    intros_indesejadas = [
+        "Based on the provided context,",
+        "Based on the context provided,"
+    ]
+    for intro in intros_indesejadas:
+        print(intro, response.startswith(intro))
+        if response.startswith(intro):
+            response = response[len(intro):].lstrip()
+
+    return response
