@@ -11,22 +11,27 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # Carrega bases e modelos
 PROCESSED_DATABASE_PATH = "artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "artifacts/faiss_index.index"
-LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
+LLM_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
+# LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
 
 
 # Setup llm varibles
 if 'llm' not in st.session_state:
-    print("Setting up llm variables...")
+    print("\nSetting up llm variables...")
     # Setup torch configs
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.cuda.empty_cache()
     torch_dtype = torch.float16
+
     # Setup variables
     embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
     faiss_index = faiss.read_index(FAISS_INDEX_PATH)
     processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
     model = AutoModelForCausalLM.from_pretrained(
-        LLM_NAME, torch_dtype=torch_dtype).to(device)
+        LLM_NAME,
+        torch_dtype=torch_dtype,
+    ).to(device)
+    model = model.bfloat16().cuda()
     tokenizer = AutoTokenizer.from_pretrained(LLM_NAME)
     st.session_state['llm'] = {
         'device': device,
@@ -51,7 +56,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if prompt := st.chat_input("Enter question"):
-    print(f"User: {prompt}")
+    print(f"\nUser: {prompt}")
 
     # Display user message in chat message container
     st.chat_message("user").markdown(prompt)
@@ -60,23 +65,24 @@ if prompt := st.chat_input("Enter question"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     # # Generate response
-    print("Generating response...")
+    print("\nGenerating response...")
     retrieved_context = retrieve_context(
         embedding_model=st.session_state['llm']['embedding_model'],
         faiss_index=st.session_state['llm']['faiss_index'],
         processed_pages_df=st.session_state['llm']['processed_pages_df'],
         prompt=prompt,
-        k=5
+        k=10
     )
     response = generate_answer(
         device=st.session_state['llm']['device'],
         model=st.session_state['llm']['model'],
         tokenizer=st.session_state['llm']['tokenizer'],
         prompt=prompt,
-        retrieved_context=retrieved_context
+        retrieved_context=retrieved_context,
+        max_tokens=200,
     )
 
-    print(f"Assistant: {response}")
+    print(f"\nAssistant: {response}")
 
     # Display assistant response in chat message container
     with st.chat_message("assistant"):

@@ -1,4 +1,4 @@
-"""02__tokens_embeddings."""
+"""02__create_embeddings."""
 import faiss
 import numpy as np
 import pandas as pd

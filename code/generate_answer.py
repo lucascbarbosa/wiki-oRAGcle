@@ -23,13 +23,35 @@ def retrieve_context(
     return retrieved_context
 
 
-def generate_answer(device, model, tokenizer, prompt: str, retrieved_context: list):
+def generate_answer(
+    device,
+    model,
+    tokenizer,
+    prompt: str,
+    retrieved_context: list,
+    max_tokens: int) -> str:
     """Generate answer with llm and retrieved context."""
     # Formata contexto
     prompt_with_context = f"""
-        Based on the following context, answer the question accurately and
+        [Instructions]
+        Based on the following context,answer the question accurately and
         concisely. You must not create information you don't see in the
-        context.
+        context, but you **must structure** your response in markdown and not
+        only pass the context as answer. Please format your answer in a way
+        that is easy to read and visually structured. You also may NOT give
+        an explanation to the answer you generated.
+
+        Example:
+        User: Who is Jon Snow?
+        Answer: **Jon Snow** is the bastard son of Eddard Stark, Lord of
+        Winterfell. He has five half-siblings: Robb, Sansa, Arya, Bran, and
+        Rickon Stark. Unaware of the identity of his mother, Jon was raised at
+        Winterfell. At the age of fourteen, Jon joins the Night's Watch, where
+        he earns the nickname Lord Snow. Jon is one of the major POV characters
+        in *A Song of Ice and Fire*.
+
+        ## Appearance and Character
+        Jon has the long face of the Starks [...]
 
         [Question]
         {prompt}
@@ -40,19 +62,19 @@ def generate_answer(device, model, tokenizer, prompt: str, retrieved_context: li
         [Answer]
     """
     # Gera tokens
+    # tokenizer.pad_token_id = tokenizer.unk_token_id
     inputs = tokenizer(prompt_with_context, return_tensors="pt").to(device)
 
     # Gera resposta
     with torch.inference_mode():
         outputs = model.generate(
             inputs['input_ids'],
-            max_new_tokens=200,
-            do_sample=False,
+            max_new_tokens=max_tokens,
         )
 
     # Decodifica a resposta gerada
     answer = tokenizer.decode(
         outputs[0], skip_special_tokens=True
-    ).split('[Answer]\n')[1].strip()
+    )[len(prompt_with_context):]
 
     return answer
