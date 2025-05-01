@@ -1,56 +1,86 @@
 """04__streamlit_app."""
+import faiss
+import pandas as pd
 import streamlit as st
+import torch
 from generate_answer import generate_answer, retrieve_context
+from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
-#############
-# Functions #
-def display_messages():
-    """Display message in streamlit app."""
-    for msg in st.session_state.messages:
-        if msg["role"] == "user":
-            st.markdown(
-                '<div style="text-align:left;"><span style="background-color:'
-                '#DCF8C6; padding:10px; border-radius:10px; max-width: 80%;">'
-                f'{msg["content"]}</span></div>',
-                unsafe_allow_html=True
-            )
-        elif msg["role"] == "bot":
-            st.markdown(
-                '<div style="text-align:right;"><span style="background-color:'
-                '#ECE5DD; padding:10px; border-radius:10px; max-width: 80%;">'
-                f'{msg["content"]}</span></div>',
-                unsafe_allow_html=True
-            )
+# Carrega bases e modelos
+PROCESSED_DATABASE_PATH = "artifacts/processed_database.parquet"
+FAISS_INDEX_PATH = "artifacts/faiss_index.index"
+LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
+
+
+# Setup llm varibles
+if 'llm' not in st.session_state:
+    print("Setting up llm variables...")
+    # Setup torch configs
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    torch.cuda.empty_cache()
+    torch_dtype = torch.float16
+    # Setup variables
+    embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+    faiss_index = faiss.read_index(FAISS_INDEX_PATH)
+    processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
+    model = AutoModelForCausalLM.from_pretrained(
+        LLM_NAME, torch_dtype=torch_dtype).to(device)
+    tokenizer = AutoTokenizer.from_pretrained(LLM_NAME)
+    st.session_state['llm'] = {
+        'device': device,
+        'embedding_model': embedding_model,
+        'faiss_index': faiss_index,
+        'processed_pages_df': processed_pages_df,
+        'model': model,
+        'tokenizer': tokenizer,
+    }
 
 
 # Interface Streamlit
-st.title("Chatbot de RAG - Interaja com o Modelo")
+st.title("Ask wiki-oRAGcle!")
 
 # Estado para armazenar o histórico de mensagens
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-# Exibir o histórico de mensagens
-display_messages()
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
-# Receber a entrada do usuário
-user_input = st.text_input("Digite sua mensagem:")
+if prompt := st.chat_input("Enter question"):
+    print(f"User: {prompt}")
 
-if user_input:
-    # Adicionar a mensagem do usuário ao histórico
-    st.session_state.messages.append({"role": "user", "content": user_input})
+    # Display user message in chat message container
+    st.chat_message("user").markdown(prompt)
 
-    retrieved_context = retrieve_context(user_input, 5)
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Gerar a resposta do chatbot
-    bot_response = generate_answer(user_input)
+    # # Generate response
+    print("Generating response...")
+    retrieved_context = retrieve_context(
+        embedding_model=st.session_state['llm']['embedding_model'],
+        faiss_index=st.session_state['llm']['faiss_index'],
+        processed_pages_df=st.session_state['llm']['processed_pages_df'],
+        prompt=prompt,
+        k=5
+    )
+    response = generate_answer(
+        device=st.session_state['llm']['device'],
+        model=st.session_state['llm']['model'],
+        tokenizer=st.session_state['llm']['tokenizer'],
+        prompt=prompt,
+        retrieved_context=retrieved_context
+    )
 
-    # Adicionar a resposta do bot ao histórico
-    st.session_state.messages.append({"role": "bot", "content": bot_response})
+    print(f"Assistant: {response}")
 
-    # Exibir as novas mensagens
-    display_messages()
+    # Display assistant response in chat message container
+    with st.chat_message("assistant"):
+        st.markdown(response)
 
-    # Limpar o campo de entrada
-    st.text_input("Digite sua mensagem:", "", key="input")
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response})
