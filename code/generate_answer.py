@@ -79,7 +79,7 @@ def generate_answer(
     with torch.inference_mode():
         generated_ids = model.generate(
             **model_inputs,
-            max_new_tokens=512
+            max_new_tokens=max_tokens
         )
     # Decodifica a resposta gerada
     generated_ids = [

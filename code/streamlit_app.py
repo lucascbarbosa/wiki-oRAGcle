@@ -71,7 +71,7 @@ if prompt := st.chat_input("Enter question"):
         faiss_index=st.session_state['llm']['faiss_index'],
         processed_pages_df=st.session_state['llm']['processed_pages_df'],
         prompt=prompt,
-        k=10
+        k=30
     )
     response = generate_answer(
         device=st.session_state['llm']['device'],
@@ -79,7 +79,7 @@ if prompt := st.chat_input("Enter question"):
         tokenizer=st.session_state['llm']['tokenizer'],
         prompt=prompt,
         retrieved_context=retrieved_context,
-        max_tokens=200,
+        max_tokens=512,
     )
 
     print(f"\nAssistant: {response}")
