@@ -9,7 +9,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # Carrega bases e modelos
 PROCESSED_DATABASE_PATH = "artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "artifacts/faiss_index.index"
-LLM_NAME = "allenai/OLMo-2-1124-7B-Instruct"
+LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
 
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 faiss_index = faiss.read_index(FAISS_INDEX_PATH)
@@ -36,22 +36,49 @@ def retrieve_context(prompt: str, k: int) -> list:
 def generate_answer(prompt: str, retrieved_context: list):
     """Generate answer with llm and retrieved context."""
     # Formata contexto
-    context = (
-        f"Question: {prompt}\nContext: "
-        f"{' '.join(retrieved_context)}\nAnswer:"
-    )
+    prompt_with_context = f"""
+        Based on the following context, answer the question accurately and
+        concisely. You must not create information you don't see in the
+        context.
 
+        [Question]
+        {prompt}
+
+        [Context]:
+        {' '.join(retrieved_context)}
+
+        [Answer]
+    """
     # Gera tokens
-    inputs = tokenizer(context, return_tensors="pt")
+    inputs = tokenizer(prompt_with_context, return_tensors="pt")
 
     # Gera resposta
     outputs = model.generate(
         inputs['input_ids'],
-        max_length=150,
-        num_return_sequences=1,
-        temperature=0.7
+        max_new_tokens=300,  # ou mais, dependendo da sua necessidade
+        temperature=0.3,
+        do_sample=True,
     )
 
     # Decodifica a resposta gerada
-    answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    answer = tokenizer.decode(
+        outputs[0], skip_special_tokens=True
+    )
+
     return answer
+
+
+def process_prompt(prompt: str, k: int):
+    """Process prompt with context."""
+    # Gera contexto
+    retrieved_context = retrieve_context(prompt, k)
+
+    # Gera resposta
+    answer = generate_answer(prompt, retrieved_context)
+    return answer
+
+
+# Exemplo de uso
+prompt = "Who is Jon Snow?"
+answer = process_prompt(prompt, k=5)
+print("Resposta gerada:", answer)

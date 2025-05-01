@@ -1,6 +1,6 @@
 """04__streamlit_app."""
 import streamlit
-from 03__generate_answer import generate_answer, retrieve_context
+from generate_answer import generate_answer, retrieve_context
 
 
 def process_prompt(prompt: str, k: int):
@@ -9,7 +9,7 @@ def process_prompt(prompt: str, k: int):
     retrieved_context = retrieve_context(prompt, k)
 
     # Gera resposta
-    answer = generate_answer_with_llama(prompt, retrieved_context)
+    answer = generate_answer(prompt, retrieved_context)
     return answer
 
 
