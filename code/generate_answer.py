@@ -96,7 +96,6 @@ def generate_answer(
         "Based on the context provided,"
     ]
     for intro in intros_indesejadas:
-        print(intro, response.startswith(intro))
         if response.startswith(intro):
             response = response[len(intro):].lstrip()
 
