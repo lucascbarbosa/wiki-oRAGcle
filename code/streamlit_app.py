@@ -44,7 +44,10 @@ if 'llm' not in st.session_state:
 
 
 # Interface Streamlit
-st.title("Ask wiki-oRAGcle!")
+st.markdown(
+    "<h1>Ask the oRAGcle of <em>A Wiki of Ice and Fire</em></h1>",
+    unsafe_allow_html=True
+)
 
 # Estado para armazenar o histórico de mensagens
 if 'messages' not in st.session_state:
