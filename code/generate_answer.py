@@ -64,7 +64,7 @@ def generate_answer(
         },
         {
             "role": "user",
-            "content": f"{prompt}\n\nContexto:\n{retrieved_context}"
+            "content": prompt,
         }
     ]
     # Gera tokens
@@ -79,7 +79,10 @@ def generate_answer(
     with torch.inference_mode():
         generated_ids = model.generate(
             **model_inputs,
-            max_new_tokens=max_tokens
+            max_new_tokens=max_tokens,
+            do_sample=True,
+            temperature=0.7,
+            top_p=0.9,
         )
     # Decodifica a resposta gerada
     generated_ids = [

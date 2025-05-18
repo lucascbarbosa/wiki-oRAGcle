@@ -54,7 +54,7 @@ for subject in qa_data.columns:
             tokenizer=tokenizer,
             prompt=question,
             retrieved_context=retrieved_context,
-            max_tokens=128,
+            max_tokens=512,
         )
         print(
             f"Question: {question}\n"
