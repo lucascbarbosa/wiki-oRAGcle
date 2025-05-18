@@ -11,9 +11,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # Carrega bases e modelos
 PROCESSED_DATABASE_PATH = "artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "artifacts/faiss_index.index"
-LLM_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
-# LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
-
+# LLM_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
+# LLM_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
+LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
 
 # Setup llm varibles
 if 'llm' not in st.session_state:
