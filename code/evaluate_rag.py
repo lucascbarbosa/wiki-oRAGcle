@@ -46,7 +46,7 @@ for subject in qa_data.columns:
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
             prompt=question,
-            k=10
+            k=30
         )
         response_pred = generate_answer(
             device=device,
