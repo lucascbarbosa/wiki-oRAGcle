@@ -1,213 +1,312 @@
 {
-    "characters": [
-      {
-        "question": "Who is Jon Snow?",
-        "answer": "Jon Snow is the illegitimate son of Eddard Stark, raised at Winterfell. He joins the Night’s Watch and eventually becomes Lord Commander. He’s known for his brooding sense of honor and the secret of his true parentage. His story arc spans rebellion, leadership, and a pivotal role beyond the Wall."
-      },
-      {
-        "question": "Who is Daenerys Targaryen?",
-        "answer": "Daenerys is the youngest child of King Aerys II, exiled to Essos. Married to Khal Drogo, she hatches three dragon eggs. Known as “Mother of Dragons,” she conquers cities and aims to reclaim the Iron Throne. Her journey explores power, compassion, and the perils of rulership."
-      },
-      {
-        "question": "Who is Tyrion Lannister?",
-        "answer": "Tyrion is the youngest Lannister sibling, nicknamed “The Imp.” A dwarf, he uses wit and intellect to navigate court intrigue. He serves as Hand of the King and later Hand to Daenerys. His arc grapples with prejudice, loyalty, and the burdens of family legacy."
-      },
-      {
-        "question": "Where was Arya Stark trained as an assassin?",
-        "answer": "Arya trains at the House of Black and White in Braavos. Under the Faceless Men, she learns stealth, poisoncraft, and identity‑shifting. She rejects full anonymity to pursue personal vengeance. Returns to Westeros to redefine her own path."
-      },
-      {
-        "question": "When did Cersei Lannister become Queen Regent?",
-        "answer": "Cersei becomes Queen Regent in 299 AC after King Robert’s death. As widow of Robert Baratheon, she governs on behalf of her son Joffrey. Uses political and often ruthless maneuvers to secure power. Her regency intensifies Lannister–Baratheon conflicts."
-      },
-      {
-        "question": "Describe Bran Stark’s transformation into the Three‑Eyed Raven.",
-        "answer": "After his fall, Bran heads beyond the Wall seeking the Three‑Eyed Raven. He endures mystical trials in a weirwood cave, losing his physical mobility but gaining greensight. Becomes the new Three‑Eyed Raven, guardian of past and future visions. His arc ties magic and memory."
-      },
-      {
-        "question": "What is Petyr Baelish’s secret ambition?",
-        "answer": "“Littlefinger” Petyr Baelish rises from minor House Baelish. Obsessed with Sansa Stark and chaos, he engineers political strife. Seeks the Vale’s power via marriage and manipulation. Ultimately overreaches, revealing the cost of ambition unchecked."
-      },
-      {
-        "question": "Explain Sandor Clegane’s journey from the Hound to a religious pilgrim.",
-        "answer": "Sandor, known as the Hound, serves the Lannisters as a brutal knight. After near‑death and witnessing King’s Landing’s horrors, he abandons violence. Joins a septon named Ray, seeks redemption. His arc explores trauma, faith, and the possibility of change."
-      },
-      {
-        "question": "How did Margaery Tyrell rise to power?",
-        "answer": "Young Margaery marries Renly Baratheon, then Joffrey, and later Tommen. Uses charm and Tyrell wealth to influence the Faith Militant and the smallfolk. Balances political savvy with genuine goodwill. Her death in the Sept explosion marks a pivotal power shift."
-      },
-      {
-        "question": "Analyze Davos Seaworth’s moral code amid wartime alliances.",
-        "answer": "Davos, former smuggler turned knight, serves Stannis Baratheon. Upholds honesty and loyalty even when Baratheon’s cause falters. Smuggles onions to aide the starving, earning “Onion Knight.” His pragmatic faith clashes with Stannis’s zeal, exemplifying honor over blind devotion."
-      }
-    ],
-    "houses": [
-      {
-        "question": "What is House Stark’s seat?",
-        "answer": "House Stark rules from Winterfell in the North. Their ancestral castle stands at the heart of the Wolfswood. Known for honor, harsh winters, and the direwolf sigil. Ancient as the First Men’s kingdoms, they proverbially declare, “Winter is Coming.”"
-      },
-      {
-        "question": "Where does House Lannister hail from?",
-        "answer": "House Lannister’s seat is Casterly Rock on the western coast. Built atop a goldmine, they are the richest noble family. Their lion sigil and “Hear Me Roar!” motto reflect pride and power. Key players in crown politics for centuries."
-      },
-      {
-        "question": "Who leads House Baratheon after Robert’s Rebellion?",
-        "answer": "Robert Baratheon becomes king in 298 AC, head of House Baratheon. His brothers Stannis and Renly hold Storm’s End and the Vale’s forces respectively. After Robert’s death, internal Baratheon rivalries spark civil war."
-      },
-      {
-        "question": "When did House Targaryen conquer Westeros?",
-        "answer": "Aegon’s Conquest in 1 AC marks Targaryen rule over the Seven Kingdoms. With dragons Balerion, Meraxes, and Vhagar, they subdued rival kingdoms. Established King’s Landing and the Iron Throne. Their dynasty spans nearly 300 years."
-      },
-      {
-        "question": "Describe House Arryn’s geographical stronghold and motto.",
-        "answer": "House Arryn sits atop the Eyrie in the Vale—an impregnable mountain fortress. Their moon-and-falcon sigil evokes lofty isolation. Motto: “As High as Honor.” They maintain vigilant neutrality, though internal strife can erupt."
-      },
-      {
-        "question": "What caused House Greyjoy’s failed rebellion?",
-        "answer": "In 289 AC, Balon Greyjoy’s Ironborn rose against the Iron Throne. They sacked the North’s western coast but failed to hold Torrhen’s Square. The rebellion collapsed after Valyrian steel arrived under Ned Stark’s leadership. Greyjoys made to bend the knee."
-      },
-      {
-        "question": "Analyze the fall of House Martell’s dominance.",
-        "answer": "House Martell of Dorne remained independent through marriage alliances. After Myrcella’s death and Oberyn’s demise in 300 AC, they lose political leverage. The Sand Snakes’ vengeful plots further isolate Dorne. Their quest for justice shapes regional politics."
-      },
-      {
-        "question": "Explain House Tyrell’s rise following the War of the Five Kings.",
-        "answer": "With Renly’s death, Olenna Tyrell pivots to align with Lannisters via Margaery’s marriage to Joffrey. Gains the Faith Militant’s support to boost influence. Their vast Reach resources keep the crown coffers full—then lead to conflicts over succession."
-      },
-      {
-        "question": "What internal schism weakens House Frey?",
-        "answer": "The Twins’ Freys betray the Starks at the Red Wedding (299 AC). Public outrage sets other houses against them. Splinter factions loyal to Robb Stark’s cause attack their lands. Their reputation for treachery overshadows any claim to honor."
-      },
-      {
-        "question": "Compare the political strategies of House Bolton vs. House Karstark.",
-        "answer": "Both northern houses bend the knee to the Lannisters, but Boltons employ fear (flaying) to secure obedience. Karstarks, led by Rickard Karstark, rebel over perceived betrayals. The Boltons’ brutality earns temporary favor, yet breeds deep resentment."
-      }
-    ],
-    "historic_events": [
-      {
-        "question": "What was Robert’s Rebellion?",
-        "answer": "Fought 282–283 AC after Lyanna Stark’s alleged kidnapping by Prince Rhaegar. Led by Robert Baratheon with allies Stark and Arryn. Overthrew the Targaryen dynasty, Aerys II was killed. Culminated in Robert’s coronation."
-      },
-      {
-        "question": "When did the Targaryen Conquest occur?",
-        "answer": "Aegon’s Conquest began in 1 AC. Aegon Targaryen and his sisters used dragons to conquer six of the Seven Kingdoms. Dorne resisted until 173 AC. Established nearly three centuries of Targaryen rule."
-      },
-      {
-        "question": "Where did the Battle of the Trident take place?",
-        "answer": "The Trident riverlands, southwest of Harrenhal. Occurred in 282 AC between Robert’s and Rhaegar’s forces. Robert slew Rhaegar, turning the rebellion’s tide. His victory sealed Targaryen downfall."
-      },
-      {
-        "question": "Describe the Dance of the Dragons.",
-        "answer": "Civil war 129–131 AC between Aegon II and Rhaenyra over succession. Dragons fought dragons, devastating the realm. Led to Valyrian steel shortage and dragon extinction. Precedent for future succession crises."
-      },
-      {
-        "question": "What triggered the Greyjoy Rebellion?",
-        "answer": "Balon Greyjoy’s 289 AC revolt aimed at reclaiming “the Old Way.” Raided the North’s western coast. Suppressed by Stannis Baratheon at the Battle of Sea Dragon Point. Ironborn forced to bend the knee."
-      },
-      {
-        "question": "Analyze the consequences of the Red Wedding.",
-        "answer": "In 299 AC at the Twins, Walder Frey massacred Robb Stark’s forces during wedding feasts. Stark cause collapsed; Lannisters regained strategic advantage. Sparked widespread outrage and fractured alliances. Changed power dynamics irrevocably."
-      },
-      {
-        "question": "Explain the Sack of King’s Landing in 283 AC.",
-        "answer": "After the Trident, Tywin Lannister’s forces sacked the city. Cersei’s father used wildfire to breach the city, then looted. Many died, including the royal family’s loyalists. Cemented Lannister power but left the city in ruin."
-      },
-      {
-        "question": "What was the Blackfyre Rebellion?",
-        "answer": "A series of uprisings (196–233 AC) by bastards of House Targaryen claiming the throne. Founded by Daemon Blackfyre, legitimized by the Blackfyre sword. Several wars weakened Targaryen legitimacy and resources."
-      },
-      {
-        "question": "Discuss the Long Night and its historic impact.",
-        "answer": "Ancient winter that lasted a generation ~8,000 BC. White Walkers appeared, almost exterminating humanity. The Wall was constructed afterward. Became legend, shaping culture and religion."
-      },
-      {
-        "question": "Evaluate the War of the Five Kings’ strategic alliances.",
-        "answer": "After Robert’s death in 298 AC, five claimants (Stark, Baratheon, Lannister, Greyjoy, Bolton) vied for power. Alliances shifted—e.g., Tyrells with Lannisters, Freys with Lannisters then Boltons. Fragmented Westeros, setting stage for external threats."
-      }
-    ],
-    "regions": [
-      {
-        "question": "What is Winterfell?",
-        "answer": "Ancient Stark seat in the North. Built atop hot springs, its crypts hold generations of Starks. Guarded by the Kingsroad to the south. Symbol of Northern resilience and honor."
-      },
-      {
-        "question": "Where are the Iron Islands located?",
-        "answer": "Off Westeros’s western coast, northwest of the Reach. Harsh, rocky isles ruled by House Greyjoy. Economy based on reaving, shipbuilding, and salted fish. Motto: “We Do Not Sow.”"
-      },
-      {
-        "question": "When did the Eyrie serve as the Vale’s capital?",
-        "answer": "Since the Age of Heroes (~8,000 BC). Perched atop the Giant’s Lance, virtually impregnable. Administrates the Vale’s mountain clans. Known for sky cells—prisons with sheer drops."
-      },
-      {
-        "question": "Describe Dorne’s climate and culture.",
-        "answer": "Southernmost realm, hot arid summers, mild winters. Mixed Andal and Rhoynar heritage. Matrilineal inheritance and equality mark gender roles. Houses Martell and Dayne shape politics."
-      },
-      {
-        "question": "What strategic value does the Riverlands hold?",
-        "answer": "Central Westeros, bisected by the Trident. Fertile farmlands feed multiple kingdoms. Its river networks enable rapid troop movements. Historically contested ground in major wars."
-      },
-      {
-        "question": "Analyze the Vale of Arryn’s defensive advantages.",
-        "answer": "Surrounded by the Mountains of the Moon, accessed via the Bloody Gate and mountain passes. The Eyrie overlooks all approaches. Limited roads mean few and easily defended invasion routes."
-      },
-      {
-        "question": "Explain Beyond the Wall’s political status.",
-        "answer": "Unclaimed wild lands north of the Wall. Inhabited by Free Folk clans with no central authority. Beyond the Wall’s winters and threats (White Walkers) deter southern rule."
-      },
-      {
-        "question": "What makes the Reach Westeros’s breadbasket?",
-        "answer": "Fertile plains and river valleys produce grain, fruits, and livestock. Ruled from Highgarden; major naval port at Oldtown. Wealth from agriculture funds the Tyrells’ influence."
-      },
-      {
-        "question": "Compare Crownlands vs. Stormlands in strategic importance.",
-        "answer": "Crownlands contain King’s Landing and Dragonstone—political and naval hubs. Stormlands buffer the Reach from the narrow sea. Frequent storms hamper logistics but protect against seaborne invasion."
-      },
-      {
-        "question": "Evaluate how Essos influences Westerosi politics.",
-        "answer": "Eastern continent of Free Cities, Dothraki Sea, and Slaver’s Bay. Source of mercenaries, trade goods, and ideological movements (e.g., Daenerys’s campaigns). Migrant populations and commerce shape diplomacy and conflict."
-      }
-    ],
-    "objects": [
-      {
-        "question": "What is Valyrian steel?",
-        "answer": "A magically forged alloy from ancient Valyria. Lighter, sharper, and holds edge far better than normal steel. Weapons like Ice, Longclaw, and Oathkeeper are famed examples. Recipes were lost in the Doom; surviving blades are treasured heirlooms."
-      },
-      {
-        "question": "Describe the Iron Throne.",
-        "answer": "Forged by Aegon I from the swords of his conquered enemies. Jagged, asymmetrical, and uncomfortable—reminds rulers of war’s cost. Located in the Red Keep’s Great Hall. Symbol of ultimate authority."
-      },
-      {
-        "question": "When was Blackwater Rush first dammed?",
-        "answer": "The Lannisters built the dam in 293 AC to flood King’s Landing’s approach. Tyrion used it to repel Stannis’s fleet with wildfire. Engineered by Lannister engineers under Tywin’s orders. Demonstrates defensive ingenuity."
-      },
-      {
-        "question": "What makes dragonglass effective against White Walkers?",
-        "answer": "Obsidian formed by dragonglass at volcanic sites (e.g., Dragonmont). Supernaturally imbued to shatter undead magic. Used in arrowheads and dagger blades. Key to defeating the Others in legend and war."
-      },
-      {
-        "question": "Explain the forging process of Valyrian steel.",
-        "answer": "Involves spells and techniques of Valyrian smiths using dragonfire. Repeating cycles of quenching and enchantment produce its distinctive ripples (damascus pattern). Requires magic in the forge; lost art since Valyria’s doom."
-      },
-      {
-        "question": "Analyze how raven messengers impact war communications.",
-        "answer": "Ravens carry written messages between castles, enabling rapid intelligence. Their reliability and homing instinct make them indispensable. Wars of succession hinge on who commands the raven network."
-      },
-      {
-        "question": "What is the Wildfire and how is it produced?",
-        "answer": "A volatile, green‑flamed chemical concoction by the Alchemists’ Guild in King’s Landing. Stored in large caches beneath the city. Ignited via an Ired sword against water. Weaponized at the Battle of Blackwater."
-      },
-      {
-        "question": "Discuss the role of draconic eggs in Targaryen lore.",
-        "answer": "Preserved as symbols of legitimacy and power. Dany’s three eggs hatch after centuries, reviving dragons. Eggs passed as gifts to cement alliances. Portend return of magic and Targaryen resurgence."
-      },
-      {
-        "question": "Compare steel armor vs. chainmail in Westerosi warfare.",
-        "answer": "Plate steel offers superior protection but is costly and cumbersome. Chainmail trades flexibility for less blunt force defense. Knights often layered gambesons beneath either. Choice reflects wealth and tactical doctrine."
-      },
-      {
-        "question": "Evaluate the symbolic importance of direwolf sigils.",
-        "answer": "Emblem of House Stark, representing loyalty and the direwolf’s bond with the North. Carved on banners, armor, and coinage. Foreshadows the Stark children’s warging abilities. Inspires fear and respect among allies and foes."
-      }
-    ]
-  }
-  
+  "characters": [
+    {
+      "question": "What is Jon Snow's wolf named?",
+      "answer": "Jon Snow's direwolf is named Ghost.",
+      "difficulty": 1,
+      "use_case": "Animal companion name recall."
+    },
+    {
+      "question": "What poison was used to kill King Joffrey Baratheon?",
+      "answer": "King Joffrey Baratheon was killed using a poison known as 'The Strangler'.",
+      "difficulty": 1,
+      "use_case": "Specific plot device detail."
+    },
+    {
+      "question": "Who was Eddard Stark's immediate predecessor as Hand of the King to Robert Baratheon?",
+      "answer": "Jon Arryn was Eddard Stark's immediate predecessor as Hand of the King to Robert Baratheon.",
+      "difficulty": 1,
+      "use_case": "Key political position recall."
+    },
+    {
+      "question": "Summarize the circumstances of Tyrion Lannister's trial for the murder of King Joffrey.",
+      "answer": "Tyrion Lannister was accused of murdering King Joffrey at his wedding feast. His trial was largely a sham orchestrated by Cersei Lannister. Key witnesses, including Shae, gave false testimony. Denied a fair judgment, Tyrion demanded a trial by combat, where his champion, Oberyn Martell, was defeated and killed by Gregor Clegane.",
+      "difficulty": 2,
+      "use_case": "Key plot event summary for a character."
+    },
+    {
+      "question": "Describe Daenerys Targaryen's conquest of Astapor and the Unsullied.",
+      "answer": "Daenerys Targaryen conquered Astapor by feigning a deal to purchase all 8,000 Unsullied warrior-eunuchs in exchange for one of her dragons (Drogon) and her trade goods. Once the deal was 'concluded' and she had control of the Unsullied, she ordered them to kill their former masters and sack the city. She then freed the Unsullied, who chose to follow her willingly.",
+      "difficulty": 2,
+      "use_case": "Character's major military/political achievement."
+    },
+    {
+      "question": "What were the main stages of Bran Stark's journey to becoming the Three-Eyed Raven?",
+      "answer": "Bran Stark's journey to becoming the Three-Eyed Raven involved several stages: his crippling fall and subsequent prophetic dreams; his journey north of the Wall guided by Jojen and Meera Reed and Coldhands; his arrival at the cave of the three-eyed raven (the Last Greenseer); and his tutelage under the Greenseer, where he honed his greensight and warging abilities, eventually taking on the mantle himself after the original's death.",
+      "difficulty": 2,
+      "use_case": "Character's transformative arc summary."
+    },
+    {
+      "question": "Outline Petyr Baelish's known political maneuvering in King's Landing before fleeing with Sansa.",
+      "answer": "In King's Landing, Petyr 'Littlefinger' Baelish served as Master of Coin, amassing personal wealth and crown debt. He secretly instigated chaos, including fueling the Stark-Lannister conflict by lying about the dagger used against Bran. He betrayed Eddard Stark, leading to Eddard's arrest. He also arranged Joffrey's murder with Olenna Tyrell and facilitated Sansa Stark's escape from the city.",
+      "difficulty": 2,
+      "use_case": "Character's key political actions and schemes."
+    },
+    {
+      "question": "Detail Stannis Baratheon's claim to the Iron Throne, his key supporters, and major military campaigns.",
+      "answer": "Stannis Baratheon based his claim to the Iron Throne on being Robert Baratheon's elder brother, asserting that Joffrey, Tommen, and Myrcella were illegitimate products of incest. His key supporters included Melisandre, Davos Seaworth, and initially some Stormlords and houses from the Crownlands and Narrow Sea. Major military campaigns included: his attack on King's Landing (Battle of the Blackwater), which failed; his campaign in the North, where he defeated the wildlings at the Wall and attempted to rally Northern houses; and his final ill-fated march on Winterfell against House Bolton.",
+      "difficulty": 3,
+      "use_case": "Comprehensive summary of a claimant's position and actions."
+    },
+    {
+      "question": "Trace the known history of Jaime Lannister's Kingsguard vows and actions that led to his 'Kingslayer' moniker, including his motivations.",
+      "answer": "Jaime Lannister was sworn into Aerys II Targaryen's Kingsguard at a young age, vowing to protect the king. He earned the 'Kingslayer' moniker during Robert's Rebellion when he killed King Aerys II in the throne room of the Red Keep. Jaime's stated motivation was to prevent Aerys from unleashing wildfire to destroy King's Landing and its inhabitants as rebel forces entered the city. Despite this, his act was widely seen as a betrayal of his sacred vows.",
+      "difficulty": 3,
+      "use_case": "Detailed examination of a defining character event and motivation."
+    },
+    {
+      "question": "Describe the known prophetic visions and dreams of Melisandre and their impact on Stannis Baratheon's actions.",
+      "answer": "Melisandre, a red priestess of R'hllor, saw numerous visions in her flames, which she interpreted as guidance for Stannis Baratheon, whom she believed to be Azor Ahai reborn. Her visions included Stannis winning battles (like the Battle of the Blackwater, which was misinterpreted), the need for king's blood sacrifices (leading to the burning of those with royal lineage or attempts on Gendry/Edric Storm), and the ultimate triumph of light over darkness under Stannis. These interpretations heavily influenced Stannis's strategic decisions, often leading him down ruthless paths and contributing to his eventual downfall when the prophecies failed to materialize as expected.",
+      "difficulty": 3,
+      "use_case": "Influence of prophecies on character actions for consistency."
+    }
+  ],
+  "houses": [
+    {
+      "question": "What is the seat of House Arryn?",
+      "answer": "The seat of House Arryn is the Eyrie, a fortress located in the Mountains of the Moon within the Vale of Arryn.",
+      "difficulty": 1,
+      "use_case": "Basic house seat recall."
+    },
+    {
+      "question": "What is the sigil of House Greyjoy?",
+      "answer": "The sigil of House Greyjoy is a golden kraken on a black field.",
+      "difficulty": 1,
+      "use_case": "House sigil identification."
+    },
+    {
+      "question": "Which major house rules the Reach from Highgarden?",
+      "answer": "House Tyrell rules the Reach from their seat at Highgarden.",
+      "difficulty": 1,
+      "use_case": "Ruling house of a major region."
+    },
+    {
+      "question": "Describe the traditional customs and values of the Ironborn associated with House Greyjoy.",
+      "answer": "The Ironborn of the Iron Islands, led by House Greyjoy, adhere to the 'Old Way,' a culture valuing raiding, reaving, and maritime prowess. They worship the Drowned God and believe in paying the 'iron price' (taking things by force) rather than the 'gold price' (buying them). Key values include strength, independence, and a disdain for mainland customs, though these traditions have often led to conflict with the rest of Westeros.",
+      "difficulty": 2,
+      "use_case": "Cultural summary of a prominent house/region."
+    },
+    {
+      "question": "What was House Frey's primary grievance against Robb Stark that led to the Red Wedding?",
+      "answer": "House Frey's primary grievance against Robb Stark was his breaking of a marriage alliance. Robb Stark had pledged to marry one of Lord Walder Frey's daughters in exchange for passage across the Green Fork and the Frey's military support, but he married Jeyne Westerling instead, which Lord Walder took as a grave insult and a breach of honor.",
+      "difficulty": 2,
+      "use_case": "Key motivation for a house's significant action."
+    },
+    {
+      "question": "Outline the known Targaryen policy of succession before the Dance of the Dragons.",
+      "answer": "Before the Dance of the Dragons, the Targaryen policy of succession generally favored male heirs over female heirs, following Andal custom. However, it wasn't strictly codified absolute primogeniture. King Jaehaerys I convened the Great Council of 101 AC to decide his heir, which chose his grandson Viserys (son of his second son) over Laenor Velaryon (son of his deceased eldest son's daughter Rhaenys), solidifying the precedent of male-preference primogeniture.",
+      "difficulty": 2,
+      "use_case": "Historical policy of a major dynasty."
+    },
+    {
+      "question": "What are the known traditional roles and powers of the head of House Martell in Dorne?",
+      "answer": "The head of House Martell holds the title of Prince or Princess of Dorne, a distinction kept from when Dorne joined the Seven Kingdoms through marriage rather than conquest. Dornish law, influenced by Rhoynish custom, allows for equal primogeniture, meaning the eldest child inherits regardless of gender. The Prince/Princess of Dorne commands significant autonomy within their region, overseeing their own vassals and laws, and historically has been a key player in broader Westerosi politics.",
+      "difficulty": 2,
+      "use_case": "Political structure and powers of a unique house."
+    },
+    {
+      "question": "Detail the known history of House Blackwood and House Bracken's feud, including its origins and significant instances.",
+      "answer": "The feud between House Blackwood of Raventree Hall and House Bracken of Stone Hedge is one of the oldest and most bitter in the Riverlands, dating back to the Age of Heroes. Origins are disputed, with each house claiming the other usurped lands or royalty. Both claim descent from First Men kings. The feud manifested in numerous skirmishes and betrayals throughout Westerosi history, often seeing them take opposing sides in larger conflicts like the Dance of the Dragons and Robert's Rebellion. Religious differences (Blackwoods keep to the Old Gods, Brackens converted to the Faith of the Seven) also fueled the animosity.",
+      "difficulty": 3,
+      "use_case": "Long-standing inter-house conflict details."
+    },
+    {
+      "question": "Trace the decline of House Targaryen's dragons from Aegon's Conquest to their eventual extinction before Daenerys.",
+      "answer": "After Aegon's Conquest, House Targaryen possessed numerous powerful dragons. However, their numbers and size dwindled over generations. The Dance of the Dragons (129-131 AC), a civil war, saw many adult dragons killed in battle. Subsequent dragons were smaller and often sickly. Factors cited for the decline include confinement in the Dragonpit in King's Landing, possible inbreeding, and the loss of Valyrian knowledge. The last known dragon died during the reign of Aegon III, the Dragonbane, long before Daenerys Targaryen hatched her three eggs.",
+      "difficulty": 3,
+      "use_case": "Tracking a key aspect of a dynasty's power over time."
+    },
+    {
+      "question": "Summarize the involvement and changing allegiances of House Hightower of Oldtown during major historical conflicts such as the Dance of the Dragons and Robert's Rebellion.",
+      "answer": "House Hightower of Oldtown, one of the oldest and wealthiest houses, has often played a significant, if sometimes cautious, role. During the Dance of the Dragons, they were key supporters of the Greens (Aegon II), with Oldtown being a major loyalist stronghold. Lord Hightower's forces were crucial in the war. During Robert's Rebellion, their involvement was less direct initially. While vassals of House Tyrell (who supported the Targaryens), Lord Leyton Hightower largely remained in Oldtown, though they did contribute forces to the Tyrell armies. Their actions often reflect a pragmatic approach to preserving their city and influence.",
+      "difficulty": 3,
+      "use_case": "House's strategic involvement in multiple major events."
+    }
+  ],
+  "historic_events": [
+    {
+      "question": "Who were the main claimants to the Iron Throne during the War of the Five Kings?",
+      "answer": "The main claimants during the War of the Five Kings were Joffrey Baratheon, Stannis Baratheon, Renly Baratheon, Robb Stark (as King in the North), and Balon Greyjoy (as King of the Iron Islands).",
+      "difficulty": 1,
+      "use_case": "Key participants in a major war."
+    },
+    {
+      "question": "What was the name of the peace treaty that ended the First Dornish War?",
+      "answer": "The First Dornish War did not end with a formal peace treaty in the traditional sense of a Targaryen military victory. Dorne maintained its independence for nearly two more centuries until it was brought into the Seven Kingdoms through marriage and diplomacy under King Daeron II.",
+      "difficulty": 1,
+      "use_case": "Resolution of a specific conflict."
+    },
+    {
+      "question": "Which Targaryen king was known as 'The Unworthy'?",
+      "answer": "King Aegon IV Targaryen was known as 'The Unworthy'.",
+      "difficulty": 1,
+      "use_case": "Nickname of a historical figure."
+    },
+    {
+      "question": "Describe the event known as the 'Doom of Valyria' and its immediate consequences.",
+      "answer": "The Doom of Valyria was a cataclysmic event of unknown nature (often described as volcanic eruptions or magical disaster) that destroyed the Valyrian Freehold, its capital Valyria, and surrounding lands. Its immediate consequences included the collapse of the Valyrian empire, the loss of most dragons and dragonlords (except the Targaryens on Dragonstone), the scattering of Valyrian knowledge and magic, and a power vacuum that led to the rise of the Free Cities and the Century of Blood.",
+      "difficulty": 2,
+      "use_case": "Summary of a cataclysmic historical event."
+    },
+    {
+      "question": "What was the primary objective of the Faith Militant uprising, and how was it eventually suppressed?",
+      "answer": "The primary objective of the Faith Militant uprising (during the reigns of Aenys I and Maegor I Targaryen) was to resist Targaryen rule, particularly challenging royal incestuous marriages, the authority of the crown over the Faith, and the Targaryens' Valyrian customs. It was brutally suppressed by King Maegor I ('Maegor the Cruel') through violent campaigns, the construction of the Red Keep (and Dragonpit), and the eventual outlawing of holy orders bearing arms. King Jaehaerys I later reconciled with the Faith, offering pardons in exchange for the Faith disarming.",
+      "difficulty": 2,
+      "use_case": "Objectives and resolution of a major rebellion."
+    },
+    {
+      "question": "Explain the significance of the Great Council of 101 AC.",
+      "answer": "The Great Council of 101 AC was convened by the aging King Jaehaerys I Targaryen to decide his successor and prevent a war of succession. The council chose Viserys Targaryen (Jaehaerys's grandson through his second son) over Laenor Velaryon (Jaehaerys's grandson through his eldest son's daughter). Its significance lies in setting a strong precedent for male-preference primogeniture in Targaryen succession, a key factor leading to the later Dance of the Dragons when this precedent was challenged.",
+      "difficulty": 2,
+      "use_case": "Impact of a key political assembly."
+    },
+    {
+      "question": "What were the main outcomes and territorial changes resulting from Aegon's Conquest?",
+      "answer": "Aegon's Conquest resulted in the unification of six of the Seven Kingdoms of Westeros under Targaryen rule, with Dorne remaining independent. The Targaryens established a new capital at King's Landing, forged the Iron Throne, and began a dynasty that lasted nearly 300 years. Former kings became lords paramount under the Targaryens, or new houses were elevated (like House Tully in the Riverlands and House Tyrell in the Reach). This event marked the beginning of the 'After Conquest' (AC) calendar system.",
+      "difficulty": 2,
+      "use_case": "Consequences of a foundational historical event."
+    },
+    {
+      "question": "Detail the sequence of events and key figures involved in the 'Hour of the Wolf' following the Dance of the Dragons.",
+      "answer": "The 'Hour of the Wolf' refers to the period immediately after the end of the Dance of the Dragons when Lord Cregan Stark of Winterfell marched his Northmen into King's Landing. Aegon II was dead, and Aegon III (son of Rhaenyra) was the heir. Cregan Stark, arriving late to the war but with a fresh army, effectively took control of the city. He served as Hand of the King for a single day, during which he conducted swift trials and executions of those he deemed traitors or responsible for war crimes, including the poisoners of Aegon II. His uncompromising justice brought a swift, albeit brutal, end to the lingering instabilities before he returned North.",
+      "difficulty": 3,
+      "use_case": "Specific period within a larger conflict, detailing key actions."
+    },
+    {
+      "question": "Describe the events and major consequences of the 'War of the Ninepenny Kings'.",
+      "answer": "The War of the Ninepenny Kings (260 AC) was fought against the 'Band of Nine,' a group of pirates, mercenaries, and ambitious exiles who conquered the Stepstones and planned to invade Westeros. Maelys the Monstrous, the last of the Blackfyre Pretenders, was a key member. King Jaehaerys II Targaryen sent a large force to the Stepstones. The war saw notable figures like Ser Barristan Selmy (who slew Maelys in single combat) and Brynden 'Blackfish' Tully gain fame. The defeat of the Band of Nine ended the direct Blackfyre threat to the Iron Throne and secured the Stepstones for a time.",
+      "difficulty": 3,
+      "use_case": "Comprehensive summary of a lesser-known but significant war."
+    },
+    {
+      "question": "Outline the known history of the interactions between the First Men and the Children of the Forest, including the Pact.",
+      "answer": "The First Men migrated to Westeros thousands of years ago, leading to conflict with the native Children of the Forest who wielded powerful magic. After centuries of warfare, a peace treaty known as 'The Pact' was forged on the Isle of Faces. The First Men agreed to cease cutting down weirwood trees, and the Children granted them the open lands while retaining the deep forests. The First Men adopted the Old Gods of the Children. This Pact established a period of coexistence that lasted until the Andals invaded.",
+      "difficulty": 3,
+      "use_case": "Ancient history and agreements between founding races."
+    }
+  ],
+  "regions": [
+    {
+      "question": "Which major river flows through the Riverlands and is known for its three 'forks'?",
+      "answer": "The Trident is the major river that flows through the Riverlands, known for its Green Fork, Red Fork, and Blue Fork.",
+      "difficulty": 1,
+      "use_case": "Major geographical feature identification."
+    },
+    {
+      "question": "What is the common name for the land north of the Wall?",
+      "answer": "The common name for the land north of the Wall is 'Beyond the Wall'.",
+      "difficulty": 1,
+      "use_case": "Common name for a major region."
+    },
+    {
+      "question": "Which Free City is famous for the Iron Bank?",
+      "answer": "The Free City of Braavos is famous for the Iron Bank.",
+      "difficulty": 1,
+      "use_case": "Identifying city with key institution."
+    },
+    {
+      "question": "Describe the strategic importance of Casterly Rock as the seat of House Lannister.",
+      "answer": "Casterly Rock is a formidable fortress carved into a massive rock overlooking the Sunset Sea. Its strategic importance stems from its near impregnability, its control over Lannisport (a major port city), and, historically, its immense gold mines which were the primary source of House Lannister's wealth and power. Its location in the Westerlands also provides a strong base of operations.",
+      "difficulty": 2,
+      "use_case": "Explaining strategic value of a location."
+    },
+    {
+      "question": "What are the defining geographical and cultural characteristics of the Vale of Arryn?",
+      "answer": "The Vale of Arryn is characterized by its mountainous terrain, dominated by the Mountains of the Moon. Its main stronghold, the Eyrie, is famously inaccessible. The culture of the Vale is often seen as honorable and somewhat isolationist due to its defensible geography. The mountain clans, who are distinct from the Valemen, inhabit the less accessible areas and often raid the Vale proper.",
+      "difficulty": 2,
+      "use_case": "Summarizing geography and culture of a region."
+    },
+    {
+      "question": "Explain the significance of the Kingsroad in Westeros.",
+      "answer": "The Kingsroad is the primary highway in Westeros, running from Storm's End in the south, through King's Landing, and north to Castle Black at the Wall. Its significance lies in facilitating travel, trade, and the movement of armies across the vast continent, connecting most of the major regions and seats of power. It was commissioned by King Jaehaerys I Targaryen.",
+      "difficulty": 2,
+      "use_case": "Importance of a major infrastructure element."
+    },
+    {
+      "question": "What is known about the climate and inhabitants of the lands Beyond the Wall?",
+      "answer": "The lands Beyond the Wall are vast, largely unmapped, and have an extremely harsh, cold climate, especially during winter. The region includes the Haunted Forest, the Frostfangs mountains, and the Lands of Always Winter. Its inhabitants are collectively known as the Free Folk (or wildlings by those south of the Wall), comprising numerous disparate clans and tribes with no central authority, who live a difficult existence outside the rule of the Seven Kingdoms.",
+      "difficulty": 2,
+      "use_case": "Describing climate and people of a remote region."
+    },
+    {
+      "question": "Detail the historical significance and known features of Harrenhal.",
+      "answer": "Harrenhal is the largest and most infamous castle in Westeros, located in the Riverlands by the Gods Eye lake. Built by Harren the Black, it was ruinously melted and twisted by Aegon the Conqueror's dragon Balerion on the day it was completed. Its immense size, five colossal towers, and vast halls are legendary, but it is also considered cursed, bringing misfortune to many houses that have held it. Its strategic location has made it a frequent site of battles and occupations throughout Westerosi history.",
+      "difficulty": 3,
+      "use_case": "Comprehensive history and features of a significant landmark."
+    },
+    {
+      "question": "Describe the geographical layout, defenses, and key districts of King's Landing before its destruction in the show/final books (focus on book lore if conflicting).",
+      "answer": "King's Landing, the capital of the Seven Kingdoms, is located on the east coast of Westeros, on the Blackwater Rush. It's a populous, walled city built on three hills: Aegon's High Hill (site of the Red Keep), Visenya's Hill (site of the Great Sept of Baelor), and Rhaenys's Hill (site of the Dragonpit). Key districts include Flea Bottom (a slum), the Street of Steel (armorers), and the harbor. Its primary defenses were the city walls with multiple gates (e.g., Dragon Gate, King's Gate, Mud Gate) and the Red Keep itself. The Gold Cloaks served as the city watch.",
+      "difficulty": 3,
+      "use_case": "Detailed layout and features of the capital city."
+    },
+    {
+      "question": "Compare and contrast the economic foundations and primary exports of the Free Cities of Myr and Tyrosh.",
+      "answer": "Myr is renowned for its skilled artisans producing luxury goods such as fine lace, carpets, lenses, and Myrish glass. Its economy is heavily based on the export of these crafted items. Tyrosh, another Free City, is known for its vibrant dyes, pear brandy, intricate armor, and weapons. While both are trade-focused coastal cities, Myr leans towards delicate crafts and optics, whereas Tyrosh is associated with more martial or flamboyant goods and potent potables. Both also engage in slave trade to varying degrees.",
+      "difficulty": 3,
+      "use_case": "Economic comparison of two related entities."
+    }
+  ],
+  "objects": [
+    {
+      "question": "What material is dragonglass made from?",
+      "answer": "Dragonglass is the common name in Westeros for obsidian, a form of volcanic glass.",
+      "difficulty": 1,
+      "use_case": "Material composition of an object."
+    },
+    {
+      "question": "What is the name of Jon Snow's Valyrian steel sword?",
+      "answer": "Jon Snow's Valyrian steel sword is named Longclaw.",
+      "difficulty": 1,
+      "use_case": "Identifying a specific named weapon."
+    },
+    {
+      "question": "What is the primary function of a weirwood tree in the religion of the Old Gods?",
+      "answer": "In the religion of the Old Gods, weirwood trees with carved faces (heart trees) serve as sacred sites for worship, prayer, and witness to oaths. They are also believed to be linked to greensight and the consciousness of the old gods or greenseers.",
+      "difficulty": 1,
+      "use_case": "Function of a religiously significant object."
+    },
+    {
+      "question": "Describe the known properties and appearance of Valyrian steel.",
+      "answer": "Valyrian steel is a unique metal alloy forged in Old Valyria using magic, notably dragonfire. It is exceptionally strong, light, and capable of holding an incredibly sharp edge far longer than ordinary steel. Valyrian steel blades often have a distinctive ripple pattern, like dark smoke or water, and are highly prized and rare since the forging knowledge was lost with the Doom of Valyria.",
+      "difficulty": 2,
+      "use_case": "Describing properties of a key material."
+    },
+    {
+      "question": "Explain the purpose and typical construction of a MOTTE-and-bailey castle in Westeros.",
+      "answer": "While not explicitly termed 'motte-and-bailey' in Westeros as frequently as in Earth history, early or less sophisticated castles often follow similar principles. They would consist of a 'motte' (an earthen mound, natural or artificial) topped with a wooden or stone keep, and an enclosed 'bailey' (a courtyard) protected by a palisade or wall, containing other buildings. They served as defensive structures and administrative centers for local lords, offering quicker construction than large stone castles.",
+      "difficulty": 2,
+      "use_case": "Explaining a common type of historical structure."
+    },
+    {
+      "question": "What is wildfire, who produces it, and what are its notable characteristics?",
+      "answer": "Wildfire is a highly volatile, flammable green liquid produced by the Alchemists' Guild in King's Landing. It is incredibly destructive, capable of burning on water, and extremely difficult to extinguish, clinging to Aerys II Targaryen. It's stored in pottery jars and was famously used in the Battle of the Blackwater.",
+      "difficulty": 2,
+      "use_case": "Describing a dangerous substance and its properties."
+    },
+    {
+      "question": "What is the Horn of Winter (also known as Joramun's Horn) purported to do according to legend?",
+      "answer": "According to legend, the Horn of Winter, also known as Joramun's Horn, is a magical horn with the power to 'wake giants from the earth' and bring down the Wall if blown.",
+      "difficulty": 2,
+      "use_case": "Legendary properties of a mythical object."
+    },
+    {
+      "question": "Detail the known history, design, and significance of the Iron Throne.",
+      "answer": "The Iron Throne is the seat of the monarch of the Seven Kingdoms, located in the Red Keep in King's Landing. It was forged at the command of Aegon the Conqueror from the swords of his vanquished enemies, melted together by the fiery breath of his dragon Balerion. It is described as a towering, asymmetric, and uncomfortable throne of blackened, twisted metal with many sharp edges, intended by Aegon to remind rulers that conquest is not easy. It is the ultimate symbol of power and authority in Westeros.",
+      "difficulty": 3,
+      "use_case": "Comprehensive history and symbolism of a central object."
+    },
+    {
+      "question": "Describe the process and known ingredients for creating milk of the poppy, and its common uses in Westeros.",
+      "answer": "Milk of the poppy is a powerful painkiller and sedative commonly used by maesters in Westeros. It is derived from poppy flowers. While the exact medieval-equivalent process isn't fully detailed, it involves processing poppy latex. Its common uses include alleviating severe pain from injuries or illness, inducing sleep, and calming patients. However, it is also addictive and can cause stupor or death in high doses or with prolonged use.",
+      "difficulty": 3,
+      "use_case": "Details of a common medicinal/alchemical substance."
+    },
+    {
+      "question": "Trace the known lineage and notable bearers of the Valyrian steel sword Heartsbane.",
+      "answer": "Heartsbane is the ancestral Valyrian steel greatsword of House Tarly of Horn Hill. It has been in their possession for centuries. Notable known bearers include Lord Randyll Tarly, a renowned and formidable commander. Before him, it was passed down through generations of Tarly lords. Samwell Tarly, despite not being a traditional warrior, took Heartsbane from Horn Hill before leaving for Oldtown, intending for it to be kept safe or used against the Others.",
+      "difficulty": 3,
+      "use_case": "Lineage and history of a specific Valyrian steel weapon."
+    }
+  ]
+}
