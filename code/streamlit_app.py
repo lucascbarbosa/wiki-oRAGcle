@@ -1,4 +1,4 @@
-"""04__streamlit_app."""
+"""Script for the chatbot web app."""
 import faiss
 import pandas as pd
 import streamlit as st
@@ -30,6 +30,7 @@ if 'llm' not in st.session_state:
     model = AutoModelForCausalLM.from_pretrained(
         LLM_NAME,
         torch_dtype=torch_dtype,
+        device="cuda",
     ).to(device)
     model = model.bfloat16().cuda()
     tokenizer = AutoTokenizer.from_pretrained(LLM_NAME)

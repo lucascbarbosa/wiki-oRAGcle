@@ -1,4 +1,4 @@
-"""evaluate_rag."""
+"""Script for RAG evaluation."""
 import evaluate
 import faiss
 import pandas as pd
@@ -30,11 +30,11 @@ model = model.bfloat16().cuda()
 tokenizer = AutoTokenizer.from_pretrained(LLM_NAME)
 
 
-# Iterate each question and answer
-qa_data = pd.read_json("../artifacts/questions_answers.json")
+# Read QA benchmark data
+benchmark_data = pd.read_json("../artifacts/benchmark.json")
 scores = {}
-for subject in qa_data.columns:
-    subject_qas = qa_data[subject]
+for subject in benchmark_data.columns:
+    subject_qas = benchmark_data[subject]
     predictions = []
     references = []
     for qa in subject_qas:

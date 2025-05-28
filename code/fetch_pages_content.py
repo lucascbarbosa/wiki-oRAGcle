@@ -1,4 +1,4 @@
-"""01__fetch_pages_content."""
+"""Script to extract content from wiki pages."""
 import cloudscraper
 import pandas as pd
 import re

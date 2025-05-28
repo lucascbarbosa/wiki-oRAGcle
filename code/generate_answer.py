@@ -1,4 +1,4 @@
-"""03__generate_answer."""
+"""Script for answer generation."""
 import pandas as pd
 import torch
 
@@ -23,8 +23,15 @@ def retrieve_context(
     return retrieved_context
 
 
-def generate_answer(
-    device,
+# def generate_answer_api(
+#     prompt: str,
+#     retrieved_context: list,
+#     max_tokens: int
+# ) -> str:
+    
+
+
+def generate_answer_local(
     model,
     tokenizer,
     prompt: str,

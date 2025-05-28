@@ -1,4 +1,4 @@
-"""02__create_embeddings."""
+"""Script for knowledge base creation."""
 import faiss
 import numpy as np
 import pandas as pd
