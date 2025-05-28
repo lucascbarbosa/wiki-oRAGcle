@@ -33,11 +33,17 @@ def generate_response(
     """Generate answer with Gemini API and retrieved context."""
     prompt = f"""
             [Instructions]
-            Based on the following context,answer the question accurately and
-            concisely. You must not create information you don't see in the
-            context. You also may NOT give an explanation to the answer you
-            generated. NEVER start the response with 'Based on the provided
+            Based on the following context,answer the question accurately.
+
+            You must not create information you don't see in the context.
+
+            You also may NOT give an explanation to the answer you
+            generated.
+
+            NEVER start the response with 'Based on the provided
             context'.
+
+            ALWAYS avoid listing phrases in a enumerated or bulletized list.
 
             Example:
             User: Who is Jon Snow?

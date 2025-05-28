@@ -3,13 +3,14 @@ import evaluate
 import faiss
 import google.generativeai as genai
 import pandas as pd
+import time
 from generate_response import generate_response, retrieve_context
 from sentence_transformers import SentenceTransformer
 
 # Global variables
 PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-2.5-flash-preview-05-20"
 GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
 
 # Steup api key
@@ -58,6 +59,9 @@ for subject in benchmark_data.columns:
         references.append(reference)
         predictions.append(prediction)
 
+        # Wait 6 seconds to avoid reach limit of 10 requests/min
+        time.sleep(6.0)
+
     # Compute evaluation metrics
     # BLUE
     bleu = evaluate.load("bleu")
@@ -94,3 +98,7 @@ for subject in benchmark_data.columns:
         'meteor': meteor_score
     }
     print(f'# SCORE ({subject}):\n ## BLEU: {bleu_score}\n ## ROUGE: {rouge_score} \n ## METEOR: {meteor_score}')
+
+score_df = pd.DataFrame(scores)
+score_df.to_excel('scores.xlsx', index=False)
+
