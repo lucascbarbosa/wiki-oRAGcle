@@ -47,14 +47,14 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("Enter question"):
-    print(f"\nUser: {prompt}")
+if question := st.chat_input("Enter question"):
+    print(f"\nUser: {question}")
 
     # Display user message in chat message container
-    st.chat_message("user").markdown(prompt)
+    st.chat_message("user").markdown(question)
 
     # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": question})
 
     # # Generate response
     print("\nGenerating response...")
@@ -62,12 +62,12 @@ if prompt := st.chat_input("Enter question"):
         embedding_model=st.session_state['llm']['embedding_model'],
         faiss_index=st.session_state['llm']['faiss_index'],
         processed_pages_df=st.session_state['llm']['processed_pages_df'],
-        prompt=prompt,
+        question=question,
         k=30
     )
     response = generate_response(
-        gemini_chat=st.session_state['llm']['gemini_chat'],
-        prompt=prompt,
+        gemini_chat=gemini_chat,
+        question=question,
         retrieved_context=retrieved_context,
         max_tokens=512,
         temperature=0.7

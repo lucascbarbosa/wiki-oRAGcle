@@ -7,14 +7,14 @@ def retrieve_context(
     embedding_model,
     faiss_index,
     processed_pages_df: pd.DataFrame,
-    prompt: str,
+    question: str,
     k: int) -> list:
-    """Retrieve context related to prompt."""
-    # Gera embedding da prompt
-    prompt_embedding = embedding_model.encode([prompt]).astype('float32')
+    """Retrieve context related to question."""
+    # Gera embedding da question
+    question_embedding = embedding_model.encode([question]).astype('float32')
 
     # Busca os k textos mais relevantes
-    distances, indices = faiss_index.search(prompt_embedding, k)
+    distances, indices = faiss_index.search(question_embedding, k)
 
     # Recupera os textos relevantes com base nos índices
     retrieved_context = [
@@ -25,7 +25,7 @@ def retrieve_context(
 
 def generate_response(
     gemini_chat,
-    prompt: str,
+    question: str,
     retrieved_context: list,
     max_tokens: int,
     temperature: float = 0.7,
@@ -56,8 +56,8 @@ def generate_response(
             [Context]
             {' '.join(retrieved_context)}
 
-            [Prompt]
-            {prompt}
+            [Question]
+            {question}
         """
 
     # Configuration for generation

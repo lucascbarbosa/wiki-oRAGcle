@@ -42,12 +42,12 @@ for subject in benchmark_data.columns:
             embedding_model=embedding_model,
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
-            prompt=question,
+            question=question,
             k=10
         )
         response_pred = generate_response(
             gemini_chat=gemini_chat,
-            prompt=question,
+            question=question,
             retrieved_context=retrieved_context,
             max_tokens=512,
             temperature=0.7
