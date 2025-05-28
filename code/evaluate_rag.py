@@ -50,8 +50,6 @@ for subject in benchmark_data.columns:
             gemini_chat=gemini_chat,
             question=question,
             retrieved_context=retrieved_context,
-            max_tokens=len(reference),
-            temperature=0.7
         )
 
         print(f"# Response: {prediction}\n")

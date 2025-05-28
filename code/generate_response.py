@@ -27,7 +27,7 @@ def generate_response(
     gemini_chat,
     question: str,
     retrieved_context: list,
-    max_tokens: int,
+    max_tokens: int = None,
     temperature: float = 0.7,
 ) -> str:
     """Generate answer with Gemini API and retrieved context."""
@@ -59,10 +59,12 @@ def generate_response(
         """
 
     # Configuration for generation
-    generation_config = genai.types.GenerationConfig(
-        max_output_tokens=max_tokens,
-        temperature=temperature,
-    )
+    config_kwargs = {}
+    if temperature is not None:
+        config_kwargs['temperature'] = temperature
+    if max_tokens is not None:
+        config_kwargs['max_output_tokens'] = max_tokens
+    generation_config = genai.types.GenerationConfig(**config_kwargs)
 
     # Generate response
     response = gemini_chat.send_message(
