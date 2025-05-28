@@ -35,11 +35,9 @@ def generate_response(
             [Instructions]
             Based on the following context,answer the question accurately and
             concisely. You must not create information you don't see in the
-            context, but you **must structure** your response in markdown and not
-            only pass the context as answer. Please format your answer in a way
-            that is easy to read and visually structured. You also may NOT give
-            an explanation to the answer you generated. NEVER start the
-            response with 'Based on the provided context'.
+            context. You also may NOT give an explanation to the answer you
+            generated. NEVER start the response with 'Based on the provided
+            context'.
 
             Example:
             User: Who is Jon Snow?

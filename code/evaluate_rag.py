@@ -1,19 +1,9 @@
 """Script for RAG evaluation."""
+import evaluate
 import faiss
 import google.generativeai as genai
 import pandas as pd
 from generate_response import generate_response, retrieve_context
-from ragas import evaluate, EvaluationDataset
-from ragas.llms import LangchainLLMWrapper
-from ragas.metrics import (
-    AnswerCorrectness,
-    AnswerRelevancy,
-    AnswerSimilarity,
-    ContextPrecision,
-    ContextRecall,
-    Faithfulness,
-    LLMContextRecall
-)
 from sentence_transformers import SentenceTransformer
 
 # Global variables
@@ -31,30 +21,22 @@ faiss_index = faiss.read_index(FAISS_INDEX_PATH)
 processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
 gemini_client = genai.GenerativeModel(model_name=GEMINI_MODEL)
 gemini_chat = gemini_client.start_chat(history=[])
-metrics = [
-    AnswerCorrectness(),
-    AnswerRelevancy(),
-    AnswerSimilarity(),
-    ContextPrecision(),
-    ContextRecall(),
-    Faithfulness(),
-    LLMContextRecall()
-]
-
 
 # Read QA benchmark data
 benchmark_data = pd.read_json("../artifacts/benchmark.json")
 scores = {}
 for subject in benchmark_data.columns:
     subject_qas = benchmark_data[subject]
-    dataset = []
+    predictions = []
+    references = []
     for qa in subject_qas:
         question = qa['question']
-        response_ref = qa['answer']
+        reference = qa['response']
 
-        print(f"Question: {question}")
-        print(f"Reference: {response_ref}")
+        print(f"# Question: {question}")
+        print(f"# Reference: {reference}")
 
+        # Retrieve context
         retrieved_context = retrieve_context(
             embedding_model=embedding_model,
             faiss_index=faiss_index,
@@ -62,35 +44,55 @@ for subject in benchmark_data.columns:
             question=question,
             k=10
         )
-        response_pred = generate_response(
+
+        # Generate response
+        prediction = generate_response(
             gemini_chat=gemini_chat,
             question=question,
             retrieved_context=retrieved_context,
-            max_tokens=512,
+            max_tokens=len(reference),
             temperature=0.7
         )
 
-        print(f"Response: {response_pred}\n")
+        print(f"# Response: {prediction}\n")
 
-        dataset.append(
-            {
-                'user_input': question,
-                'retrieved_contexts': retrieved_context,
-                'response': response_pred,
-                'reference': response_ref
-            }
-        )
+        # Save reference and generated response
+        references.append(reference)
+        predictions.append(prediction)
 
-    evaluation_dataset = EvaluationDataset.from_list(dataset)
-    result = evaluate(
-        dataset=evaluation_dataset,
-        metrics=metrics,
-        llm=LangchainLLMWrapper(gemini_client),
+    # Compute evaluation metrics
+    # BLUE
+    bleu = evaluate.load("bleu")
+    bleu_score = float(
+            bleu.compute(
+            predictions=predictions, references=references
+        )['bleu']
     )
-    print(result)
-    # # Evaluate metrics
-    # scores[subject] = {
-    #     'bleu': bleu_score,
-    #     'rouge': float(rouge_score),
-    # }
-    # print(f'\n{subject}: {scores[subject]}\n')
+
+    # ROUGE
+    rouge = evaluate.load("rouge")
+    rouge_score = rouge.compute(
+        predictions=predictions, references=references
+    )
+    rouge_score = float(
+        (
+            rouge_score['rouge1'] + rouge_score['rouge2'] +
+            rouge_score['rougeL'] + rouge_score['rougeL']
+        ) / 4
+    )
+
+    # METEOR
+    meteor = evaluate.load("meteor")
+    meteor_score = float(
+            meteor.compute(
+            predictions=predictions, references=references
+        )['meteor']
+    )
+
+    # Save metrics
+    scores[subject] = {
+        'bleu': bleu_score,
+        'rouge': rouge_score,
+        'meteor': meteor_score
+    }
+    print(f'# SCORE ({subject}):\n ## BLEU: {bleu_score}\n ## ROUGE: {rouge_score} \n ## METEOR: {meteor_score}')
