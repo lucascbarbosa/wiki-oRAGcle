@@ -1,6 +1,6 @@
 """Script for answer generation."""
 import pandas as pd
-import torch
+import google.generativeai as genai
 
 
 def retrieve_context(
@@ -23,27 +23,15 @@ def retrieve_context(
     return retrieved_context
 
 
-# def generate_answer_api(
-#     prompt: str,
-#     retrieved_context: list,
-#     max_tokens: int
-# ) -> str:
-    
-
-
-def generate_answer_local(
-    model,
-    tokenizer,
+def generate_response(
+    gemini_chat,
     prompt: str,
     retrieved_context: list,
-    max_tokens: int) -> str:
-    """Generate answer with llm and retrieved context."""
-    # Formata contexto
-    messages = [
-        {
-            "role": "system",
-            "content":
-            f"""
+    max_tokens: int,
+    temperature: float = 0.7,
+) -> str:
+    """Generate answer with Gemini API and retrieved context."""
+    prompt = f"""
             [Instructions]
             Based on the following context,answer the question accurately and
             concisely. You must not create information you don't see in the
@@ -67,46 +55,21 @@ def generate_answer_local(
 
             [Context]
             {' '.join(retrieved_context)}
-            """
-        },
-        {
-            "role": "user",
-            "content": prompt,
-        }
-    ]
-    # Gera tokens
-    text = tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
+
+            [Prompt]
+            {prompt}
+        """
+
+    # Configuration for generation
+    generation_config = genai.types.GenerationConfig(
+        max_output_tokens=max_tokens,
+        temperature=temperature,
     )
-    model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
 
-    # Gera resposta
-    with torch.inference_mode():
-        generated_ids = model.generate(
-            **model_inputs,
-            max_new_tokens=max_tokens,
-            do_sample=True,
-            temperature=0.7,
-            top_p=0.9,
-        )
-    # Decodifica a resposta gerada
-    generated_ids = [
-        output_ids[len(input_ids):]
-        for input_ids, output_ids in
-        zip(model_inputs.input_ids, generated_ids)
-    ]
-    response = tokenizer.batch_decode(
-        generated_ids, skip_special_tokens=True)[0]
+    # Generate response
+    response = gemini_chat.send_message(
+        content=prompt,
+        generation_config=generation_config
+    )
 
-    # Remove introduções indesejadas da resposta
-    intros_indesejadas = [
-        "Based on the provided context,",
-        "Based on the context provided,"
-    ]
-    for intro in intros_indesejadas:
-        if response.startswith(intro):
-            response = response[len(intro):].lstrip()
-
-    return response
+    return response.text.strip()

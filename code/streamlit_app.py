@@ -1,46 +1,34 @@
 """Script for the chatbot web app."""
 import faiss
+import google.generativeai as genai
 import pandas as pd
 import streamlit as st
-import torch
-from generate_answer import generate_answer, retrieve_context
+from generate_response import generate_response, retrieve_context
 from sentence_transformers import SentenceTransformer
-from transformers import AutoTokenizer, AutoModelForCausalLM
-
 
 # Carrega bases e modelos
 PROCESSED_DATABASE_PATH = "artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "artifacts/faiss_index.index"
-# LLM_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
-# LLM_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
-LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
+GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
+
 
 # Setup llm varibles
 if 'llm' not in st.session_state:
     print("\nSetting up llm variables...")
-    # Setup torch configs
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    torch.cuda.empty_cache()
-    torch_dtype = torch.float16
-
     # Setup variables
     embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
     faiss_index = faiss.read_index(FAISS_INDEX_PATH)
     processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
-    model = AutoModelForCausalLM.from_pretrained(
-        LLM_NAME,
-        torch_dtype=torch_dtype,
-        device="cuda",
-    ).to(device)
-    model = model.bfloat16().cuda()
-    tokenizer = AutoTokenizer.from_pretrained(LLM_NAME)
+    gemini_client = genai.Client(
+        api_key=GEMINI_API_KEY
+    )
+    gemini_chat = gemini_client.start_chat(history=[])
     st.session_state['llm'] = {
-        'device': device,
         'embedding_model': embedding_model,
         'faiss_index': faiss_index,
         'processed_pages_df': processed_pages_df,
-        'model': model,
-        'tokenizer': tokenizer,
+        'gemini_chat': gemini_chat
     }
 
 
@@ -77,13 +65,12 @@ if prompt := st.chat_input("Enter question"):
         prompt=prompt,
         k=30
     )
-    response = generate_answer(
-        device=st.session_state['llm']['device'],
-        model=st.session_state['llm']['model'],
-        tokenizer=st.session_state['llm']['tokenizer'],
+    response = generate_response(
+        gemini_chat=st.session_state['llm']['gemini_chat'],
         prompt=prompt,
         retrieved_context=retrieved_context,
         max_tokens=512,
+        temperature=0.7
     )
 
     print(f"\nAssistant: {response}")

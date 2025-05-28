@@ -1,34 +1,26 @@
 """Script for RAG evaluation."""
 import evaluate
 import faiss
+import google.generativeai as genai
 import pandas as pd
-import torch
-from generate_answer import generate_answer, retrieve_context
+from generate_response import generate_response, retrieve_context
 from sentence_transformers import SentenceTransformer
-from transformers import AutoTokenizer, AutoModelForCausalLM
 
 
 # Carrega bases e modelos
 PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
-# LLM_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
-LLM_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
-# LLM_NAME = "allenai/OLMo-2-0425-1B-Instruct"
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-torch_dtype = torch.float16
+GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
+genai.configure(api_key=GEMINI_API_KEY)
 
 # Setup variables
+print("\nSetting up models...")
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 faiss_index = faiss.read_index(FAISS_INDEX_PATH)
 processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
-model = AutoModelForCausalLM.from_pretrained(
-    LLM_NAME,
-    torch_dtype=torch_dtype,
-).to(device)
-model = model.bfloat16().cuda()
-tokenizer = AutoTokenizer.from_pretrained(LLM_NAME)
-
+gemini_client = genai.GenerativeModel(model_name=GEMINI_MODEL)
+gemini_chat = gemini_client.start_chat(history=[])
 
 # Read QA benchmark data
 benchmark_data = pd.read_json("../artifacts/benchmark.json")
@@ -38,29 +30,33 @@ for subject in benchmark_data.columns:
     predictions = []
     references = []
     for qa in subject_qas:
-        torch.cuda.empty_cache()
         question = qa['question']
         response_ref = qa['answer']
+
+        print(
+            f"Question: {question}\n"
+            f"Reference: {response_ref}\n"
+        )
+
         retrieved_context = retrieve_context(
             embedding_model=embedding_model,
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
             prompt=question,
-            k=30
+            k=10
         )
-        response_pred = generate_answer(
-            device=device,
-            model=model,
-            tokenizer=tokenizer,
+        response_pred = generate_response(
+            gemini_chat=gemini_chat,
             prompt=question,
             retrieved_context=retrieved_context,
             max_tokens=512,
+            temperature=0.7
         )
+
         print(
-            f"Question: {question}\n"
-            f"Reference: {response_ref}\n"
             f"Response: {response_pred}\n\n"
         )
+
         references.append(response_ref)
         predictions.append(response_pred)
 
