@@ -1,5 +1,4 @@
 """Script for RAG evaluation."""
-import evaluate
 import faiss
 import google.generativeai as genai
 import pandas as pd

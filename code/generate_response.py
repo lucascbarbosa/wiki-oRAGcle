@@ -1,4 +1,4 @@
-"""Script for answer generation."""
+"""Script for response generation."""
 import pandas as pd
 import google.generativeai as genai
 
