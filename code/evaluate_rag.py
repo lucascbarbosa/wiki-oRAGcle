@@ -52,7 +52,7 @@ for subject in benchmark_data.columns:
             gemini_chat=gemini_chat,
             question=question,
             retrieved_context=retrieved_context,
-            temperature=0.2,
+            temperature=0.3,
         )
         prediction_tokens = gemini_client.count_tokens(prediction).total_tokens
 
