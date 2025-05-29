@@ -3,7 +3,7 @@ import evaluate
 import faiss
 import google.generativeai as genai
 import pandas as pd
-import time
+import torch
 from generate_response import generate_response, retrieve_context
 from sentence_transformers import SentenceTransformer
 
@@ -29,8 +29,11 @@ benchmark_scores = {}
 for subject in benchmark_data.columns:
     subject_qas = benchmark_data[subject]
     for qa in subject_qas:
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
         question = qa['question']
         reference = qa['response']
+        difficulty = qa['difficulty']
         reference_tokens = gemini_client.count_tokens(reference).total_tokens
 
         print(f"# Question: {question}")
@@ -55,9 +58,6 @@ for subject in benchmark_data.columns:
         prediction_tokens = gemini_client.count_tokens(prediction).total_tokens
 
         print(f"# Prediction ({prediction_tokens} tokens): {prediction}\n")
-
-        # Wait 6 seconds to avoid reach limit of 10 requests/min
-        time.sleep(6.0)
 
         # Compute evaluation metrics
         # BLUE
@@ -84,8 +84,19 @@ for subject in benchmark_data.columns:
             )['meteor']
         )
 
+        # BERTSCORE
+        bert = evaluate.load("bertscore")
+        bert_score = bert.compute(
+                predictions=[prediction],
+                references=[reference],
+                lang="en"
+            )['f1']
+        bert_score = sum(bert_score) / len(bert_score)
+
         # Save metrics
         benchmark_scores[subject] = {
+            'subject': subject,
+            'difficulty': difficulty,
             'question': question,
             'reference': reference,
             'prediction': prediction,
@@ -96,6 +107,7 @@ for subject in benchmark_data.columns:
         print(f" ## BLEU: {bleu_score}")
         print(f" ## ROUGE: {rouge_score}")
         print(f" ## METEOR: {meteor_score}")
+        print(f" ## BERTSCORE: {bert_score}")
 
 benchmark_df = pd.DataFrame(benchmark_scores)
 benchmark_df.to_excel('scores.xlsx', index=False)

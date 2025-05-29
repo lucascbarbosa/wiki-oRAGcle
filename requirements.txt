@@ -1,3 +1,4 @@
+bert_score==0.3.13
 cloudscraper==1.2.71
 evaluate==0.4.3
 fastparquet==2024.11.0
