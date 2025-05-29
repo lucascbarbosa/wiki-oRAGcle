@@ -56,7 +56,7 @@ for subject in benchmark_data.columns:
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
             question=question,
-            k=20
+            k=10
         )
 
         # Generate response
@@ -124,4 +124,3 @@ for subject in benchmark_data.columns:
 
 benchmark_df = pd.DataFrame(benchmark_scores)
 benchmark_df.to_excel('scores.xlsx', index=False)
-
