@@ -25,11 +25,9 @@ gemini_chat = gemini_client.start_chat(history=[])
 
 # Read QA benchmark data
 benchmark_data = pd.read_json("../artifacts/benchmark.json")
-scores = {}
+benchmark_scores = {}
 for subject in benchmark_data.columns:
     subject_qas = benchmark_data[subject]
-    predictions = []
-    references = []
     for qa in subject_qas:
         question = qa['question']
         reference = qa['response']
@@ -44,7 +42,7 @@ for subject in benchmark_data.columns:
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
             question=question,
-            k=5
+            k=20
         )
 
         # Generate response
@@ -58,49 +56,47 @@ for subject in benchmark_data.columns:
 
         print(f"# Prediction ({prediction_tokens} tokens): {prediction}\n")
 
-        # Save reference and generated response
-        references.append(reference)
-        predictions.append(prediction)
-
         # Wait 6 seconds to avoid reach limit of 10 requests/min
         time.sleep(6.0)
 
-    # Compute evaluation metrics
-    # BLUE
-    bleu = evaluate.load("bleu")
-    bleu_score = float(
-            bleu.compute(
-            predictions=predictions, references=references
-        )['bleu']
-    )
+        # Compute evaluation metrics
+        # BLUE
+        bleu = evaluate.load("bleu")
+        bleu_score = float(
+                bleu.compute(
+                predictions=[prediction], references=[reference]
+            )['bleu']
+        )
 
-    # ROUGE
-    rouge = evaluate.load("rouge")
-    rouge_score = float(
-        rouge.compute(
-            predictions=predictions, references=references
-        )['rougeL']
-    )
+        # ROUGE
+        rouge = evaluate.load("rouge")
+        rouge_score = float(
+            rouge.compute(
+                predictions=[prediction], references=[reference]
+            )['rougeL']
+        )
 
-    # METEOR
-    meteor = evaluate.load("meteor")
-    meteor_score = float(
-            meteor.compute(
-            predictions=predictions, references=references
-        )['meteor']
-    )
+        # METEOR
+        meteor = evaluate.load("meteor")
+        meteor_score = float(
+                meteor.compute(
+                predictions=[prediction], references=[reference]
+            )['meteor']
+        )
 
-    # Save metrics
-    scores[subject] = {
-        'bleu': bleu_score,
-        'rouge': rouge_score,
-        'meteor': meteor_score
-    }
-    print(f"# SCORE ({subject}):")
-    print(f" ## BLEU: {bleu_score}")
-    print(f" ## ROUGE: {rouge_score}")
-    print(f" ## METEOR: {meteor_score}")
+        # Save metrics
+        benchmark_scores[subject] = {
+            'question': question,
+            'reference': reference,
+            'prediction': prediction,
+            'bleu': bleu_score,
+            'rouge': rouge_score,
+            'meteor': meteor_score
+        }
+        print(f" ## BLEU: {bleu_score}")
+        print(f" ## ROUGE: {rouge_score}")
+        print(f" ## METEOR: {meteor_score}")
 
-score_df = pd.DataFrame(scores)
-score_df.to_excel('scores.xlsx', index=False)
+benchmark_df = pd.DataFrame(benchmark_scores)
+benchmark_df.to_excel('scores.xlsx', index=False)
 
