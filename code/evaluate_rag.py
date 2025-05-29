@@ -44,7 +44,7 @@ for subject in benchmark_data.columns:
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
             question=question,
-            k=10
+            k=5
         )
 
         # Generate response
@@ -52,6 +52,7 @@ for subject in benchmark_data.columns:
             gemini_chat=gemini_chat,
             question=question,
             retrieved_context=retrieved_context,
+            temperature=0.3,
         )
         prediction_tokens = gemini_client.count_tokens(prediction).total_tokens
 
@@ -75,14 +76,10 @@ for subject in benchmark_data.columns:
 
     # ROUGE
     rouge = evaluate.load("rouge")
-    rouge_score = rouge.compute(
-        predictions=predictions, references=references
-    )
     rouge_score = float(
-        (
-            rouge_score['rouge1'] + rouge_score['rouge2'] +
-            rouge_score['rougeL'] + rouge_score['rougeL']
-        ) / 4
+        rouge.compute(
+            predictions=predictions, references=references
+        )['rougeL']
     )
 
     # METEOR
@@ -99,7 +96,10 @@ for subject in benchmark_data.columns:
         'rouge': rouge_score,
         'meteor': meteor_score
     }
-    print(f'# SCORE ({subject}):\n ## BLEU: {bleu_score}\n ## ROUGE: {rouge_score} \n ## METEOR: {meteor_score}')
+    print(f"# SCORE ({subject}):")
+    print(f" ## BLEU: {bleu_score}")
+    print(f" ## ROUGE: {rouge_score}")
+    print(f" ## METEOR: {meteor_score}")
 
 score_df = pd.DataFrame(scores)
 score_df.to_excel('scores.xlsx', index=False)

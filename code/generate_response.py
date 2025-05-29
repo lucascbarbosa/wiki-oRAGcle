@@ -27,8 +27,7 @@ def generate_response(
     gemini_chat,
     question: str,
     retrieved_context: list,
-    max_tokens: int = None,
-    temperature: float = 0.7,
+    temperature: float = None,
 ) -> str:
     """Generate answer with Gemini API and retrieved context."""
     prompt = f"""
@@ -45,7 +44,8 @@ def generate_response(
 
             ALWAYS avoid listing phrases in a enumerated or bulletized list.
 
-            Don't be too concise in the response, it must be COMPLETE.
+            The response must be COMPLETE, but also DIRECT. Don't include
+            additional facts that don't contribute to answering the question.
 
             Example:
             User: Who is Jon Snow?
@@ -67,10 +67,6 @@ def generate_response(
     config_kwargs = {}
     if temperature is not None:
         config_kwargs['temperature'] = temperature
-    if max_tokens is not None:
-        config_kwargs['max_output_tokens'] = max_tokens
-    config_kwargs['top_p'] = 0.9
-    config_kwargs['top_k'] = 5
     generation_config = genai.types.GenerationConfig(**config_kwargs)
 
     # Generate response
