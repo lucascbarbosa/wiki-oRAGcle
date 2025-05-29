@@ -45,6 +45,8 @@ def generate_response(
 
             ALWAYS avoid listing phrases in a enumerated or bulletized list.
 
+            Don't be too concise in the response, it must be COMPLETE.
+
             Example:
             User: Who is Jon Snow?
             Answer: **Jon Snow** is the bastard son of Eddard Stark, Lord of
@@ -53,9 +55,6 @@ def generate_response(
             Winterfell. At the age of fourteen, Jon joins the Night's Watch, where
             he earns the nickname Lord Snow. Jon is one of the major POV characters
             in *A Song of Ice and Fire*.
-
-            ## Appearance and Character
-            Jon has the long face of the Starks [...]
 
             [Context]
             {' '.join(retrieved_context)}
@@ -70,12 +69,14 @@ def generate_response(
         config_kwargs['temperature'] = temperature
     if max_tokens is not None:
         config_kwargs['max_output_tokens'] = max_tokens
+    config_kwargs['top_p'] = 0.9
+    config_kwargs['top_k'] = 5
     generation_config = genai.types.GenerationConfig(**config_kwargs)
 
     # Generate response
     response = gemini_chat.send_message(
         content=prompt,
-        generation_config=generation_config
+        generation_config=generation_config,
     )
 
     return response.text.strip()

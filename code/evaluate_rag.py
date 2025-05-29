@@ -16,7 +16,7 @@ GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
 # Steup api key
 genai.configure(api_key=GEMINI_API_KEY)
 
-print("\nSetting up database, models and metrics...")
+print("\nSetting up database, models and metrics...\n")
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 faiss_index = faiss.read_index(FAISS_INDEX_PATH)
 processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
@@ -33,9 +33,10 @@ for subject in benchmark_data.columns:
     for qa in subject_qas:
         question = qa['question']
         reference = qa['response']
+        reference_tokens = gemini_client.count_tokens(reference).total_tokens
 
         print(f"# Question: {question}")
-        print(f"# Reference: {reference}")
+        print(f"# Reference ({reference_tokens} tokens): {reference}")
 
         # Retrieve context
         retrieved_context = retrieve_context(
@@ -52,8 +53,9 @@ for subject in benchmark_data.columns:
             question=question,
             retrieved_context=retrieved_context,
         )
+        prediction_tokens = gemini_client.count_tokens(prediction).total_tokens
 
-        print(f"# Response: {prediction}\n")
+        print(f"# Prediction ({prediction_tokens} tokens): {prediction}\n")
 
         # Save reference and generated response
         references.append(reference)
