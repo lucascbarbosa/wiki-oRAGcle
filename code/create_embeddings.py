@@ -8,23 +8,23 @@ import tiktoken
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 
-CHUNK_SIZE = 400
-OVERLAP = 50
+CHUNK_SIZE = 250
+OVERLAP = 40
 EMBEDDING_MODEL = 'all-MiniLM-L6-v2'
-DATABASE_PATH = "artifacts/database.parquet"
-PROCESSED_DATABASE_PATH = "artifacts/processed_database.parquet"
-FAISS_INDEX_PATH = "artifacts/faiss_index.index"
-METADATA_PATH = "artifacts/metadata.pkl"
+DATABASE_PATH = "../artifacts/database.parquet"
+PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
+FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
+METADATA_PATH = "../artifacts/metadata.pkl"
 
 
 def clean_text(text: str) -> str:
     """Clean page content."""
     text = re.sub(r'\{\{.*?\}\}', '', text, flags=re.DOTALL)  # Remove {{...}}
-    text = re.sub(r'\[\[.*?\|(.*?)\]\]', r'\1', text)          # [[link|text]] -> text
-    text = re.sub(r'\[\[(.*?)\]\]', r'\1', text)               # [[text]] -> text
-    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)               # **bold** -> plain
-    text = re.sub(r'thumb\|.*', '', text)                      # remove images
-    text = re.sub(r'\n+', '\n', text)                          # multiple newlines
+    text = re.sub(r'\[\[.*?\|(.*?)\]\]', r'\1', text)  # [[link|text]] -> text
+    text = re.sub(r'\[\[(.*?)\]\]', r'\1', text)  # [[text]] -> text
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)  # **bold** -> plain
+    text = re.sub(r'thumb\|.*', '', text)  # remove images
+    text = re.sub(r'\n+', '\n', text)  # multiple newlines
     return text.strip()
 
 
@@ -33,15 +33,22 @@ def chunk_text(
     max_tokens: int = CHUNK_SIZE,
     overlap: int = OVERLAP) -> list:
     """Split pages content into chunks."""
+    # Split into sections and subsections
+    sections = re.split(r'(?m)^#{1,2} ', text)
     enc = tiktoken.encoding_for_model("gpt-3.5-turbo")
-    tokens = enc.encode(text)
     chunks = []
-    start = 0
-    while start < len(tokens):
-        end = start + max_tokens
-        chunk = enc.decode(tokens[start:end])
-        chunks.append(chunk)
-        start += max_tokens - overlap
+
+    # Split sections into chunks of same max and overlap tokens
+    for section in sections:
+        tokens = enc.encode(section)
+        start = 0
+        while start < len(tokens):
+            end = start + max_tokens
+            chunk = enc.decode(tokens[start:end])
+            if chunk.strip():  # Avoid empty chunks
+                chunks.append(chunk)
+            start += max_tokens - overlap
+
     return chunks
 
 
