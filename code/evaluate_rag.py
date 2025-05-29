@@ -23,7 +23,7 @@ faiss_index = faiss.read_index(FAISS_INDEX_PATH)
 processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
 
 # Models
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+embedding_model = SentenceTransformer(EMBEDDING_MODEL)
 gemini_client = genai.GenerativeModel(model_name=GEMINI_MODEL)
 
 # Metrics
@@ -57,8 +57,9 @@ for subject in benchmark_data.columns:
             faiss_index=faiss_index,
             processed_pages_df=processed_pages_df,
             question=question,
-            k=10
+            k=5
         )
+        print(retrieved_context)
 
         # Generate response
         prediction = generate_response(
