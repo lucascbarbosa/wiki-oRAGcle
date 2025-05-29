@@ -9,8 +9,8 @@ from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 
 CHUNK_SIZE = 250
-OVERLAP = 40
-EMBEDDING_MODEL = 'multi-qa-MiniLM-L6-cos-v1'
+OVERLAP = 25
+EMBEDDING_MODEL = 'multi-qa-MiniLM-L6-cos-v1'  # multi-qa-mpnet-base-dot-v1
 DATABASE_PATH = "../artifacts/database.parquet"
 PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
@@ -87,7 +87,7 @@ def save_faiss_index(chunks_df: pd.DataFrame):
     embedding_matrix = np.vstack(chunks_df['embedding'].values).astype('float32')
 
     # Cria o índice FAISS
-    index = faiss.IndexFlatL2(embedding_matrix.shape[1])  # L2 = distância euclidiana
+    index = faiss.IndexFlatIP(embedding_matrix.shape[1])  # IP = inner product
     index.add(embedding_matrix)
 
     # Salva o índice FAISS em disco
