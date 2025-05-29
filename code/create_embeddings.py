@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 CHUNK_SIZE = 250
 OVERLAP = 40
-EMBEDDING_MODEL = 'all-MiniLM-L6-v2'
+EMBEDDING_MODEL = 'multi-qa-MiniLM-L6-cos-v1'
 DATABASE_PATH = "../artifacts/database.parquet"
 PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
