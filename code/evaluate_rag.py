@@ -17,11 +17,19 @@ GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
 genai.configure(api_key=GEMINI_API_KEY)
 
 print("\nSetting up database, models and metrics...\n")
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+# Database
 faiss_index = faiss.read_index(FAISS_INDEX_PATH)
 processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
+
+# Models
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 gemini_client = genai.GenerativeModel(model_name=GEMINI_MODEL)
-gemini_chat = gemini_client.start_chat(history=[])
+
+# Metrics
+bleu = evaluate.load("bleu")
+rouge = evaluate.load("rouge")
+meteor = evaluate.load("meteor")
+bert = evaluate.load("bertscore")
 
 # Read QA benchmark data
 benchmark_data = pd.read_json("../artifacts/benchmark.json")
@@ -29,11 +37,14 @@ benchmark_scores = {}
 for subject in benchmark_data.columns:
     subject_qas = benchmark_data[subject]
     for qa in subject_qas:
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
+        # Start chat
+        gemini_chat = gemini_client.start_chat(history=[])
+
+        # Retrieve reference QA pair and difficulty level
         question = qa['question']
         reference = qa['response']
         difficulty = qa['difficulty']
+        # Count reference tokens
         reference_tokens = gemini_client.count_tokens(reference).total_tokens
 
         print(f"# Question: {question}")
@@ -55,13 +66,13 @@ for subject in benchmark_data.columns:
             retrieved_context=retrieved_context,
             temperature=0.3,
         )
+        # Count prediction tokens
         prediction_tokens = gemini_client.count_tokens(prediction).total_tokens
 
         print(f"# Prediction ({prediction_tokens} tokens): {prediction}\n")
 
         # Compute evaluation metrics
         # BLUE
-        bleu = evaluate.load("bleu")
         bleu_score = float(
                 bleu.compute(
                 predictions=[prediction], references=[reference]
@@ -69,7 +80,6 @@ for subject in benchmark_data.columns:
         )
 
         # ROUGE
-        rouge = evaluate.load("rouge")
         rouge_score = float(
             rouge.compute(
                 predictions=[prediction], references=[reference]
@@ -77,7 +87,6 @@ for subject in benchmark_data.columns:
         )
 
         # METEOR
-        meteor = evaluate.load("meteor")
         meteor_score = float(
                 meteor.compute(
                 predictions=[prediction], references=[reference]
@@ -85,7 +94,6 @@ for subject in benchmark_data.columns:
         )
 
         # BERTSCORE
-        bert = evaluate.load("bertscore")
         bert_score = bert.compute(
                 predictions=[prediction],
                 references=[reference],
@@ -108,6 +116,11 @@ for subject in benchmark_data.columns:
         print(f" ## ROUGE: {rouge_score}")
         print(f" ## METEOR: {meteor_score}")
         print(f" ## BERTSCORE: {bert_score}")
+
+        del bert_score
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
 
 benchmark_df = pd.DataFrame(benchmark_scores)
 benchmark_df.to_excel('scores.xlsx', index=False)
