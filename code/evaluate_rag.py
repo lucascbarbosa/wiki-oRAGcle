@@ -12,6 +12,7 @@ PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
 GEMINI_MODEL = "gemini-2.5-flash-preview-05-20"
 GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
+EMBEDDING_MODEL = 'multi-qa-MiniLM-L6-cos-v1'
 
 # Steup api key
 genai.configure(api_key=GEMINI_API_KEY)

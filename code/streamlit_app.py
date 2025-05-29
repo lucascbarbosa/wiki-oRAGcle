@@ -11,6 +11,7 @@ PROCESSED_DATABASE_PATH = "../artifacts/processed_database.parquet"
 FAISS_INDEX_PATH = "../artifacts/faiss_index.index"
 GEMINI_MODEL = "gemini-2.0-flash"
 GEMINI_API_KEY = "AIzaSyAV3VJG9STCErIBXz1LNls0V3SQ_UVi24U"
+EMBEDDING_MODEL = 'multi-qa-MiniLM-L6-cos-v1'
 
 # Steup api key
 genai.configure(api_key=GEMINI_API_KEY)
@@ -20,7 +21,7 @@ genai.configure(api_key=GEMINI_API_KEY)
 if 'llm' not in st.session_state:
     print("\nSetting up llm variables...")
     # Setup variables
-    embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+    embedding_model = SentenceTransformer(EMBEDDING_MODEL)
     faiss_index = faiss.read_index(FAISS_INDEX_PATH)
     processed_pages_df = pd.read_parquet(PROCESSED_DATABASE_PATH)
     gemini_client = genai.GenerativeModel(model_name=GEMINI_MODEL)
